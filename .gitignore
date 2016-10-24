@@ -16,4 +16,4 @@
 !/log/.keep
 /tmp
 # Ignore hidden files.
-/*/.DS_Store
+.DS_Store
