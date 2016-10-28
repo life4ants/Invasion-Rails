@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-     @users = User.paginate(page: params[:page])
+     @users = User.where(activated: true).paginate(page: params[:page])
   end
 
   def new
@@ -13,6 +13,10 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
+    unless @user.activated?
+      flash[:danger] = "That user is not activated."
+      redirect_to message_url
+    end
   end
 
   def create
@@ -64,10 +68,16 @@ class UsersController < ApplicationController
      # Confirms the correct user.
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless @user == current_user
+      unless @user == current_user
+        flash[:danger] = "Action not allowed!"
+        redirect_to(message_url)
+      end
     end
     # Confirms an admin user.
     def admin_user
-      redirect_to(root_url) unless current_user.admin?
+      unless current_user.admin?
+        flash[:danger] = "Scram, hacker!"
+        redirect_to(message_url)
+      end
     end
 end
