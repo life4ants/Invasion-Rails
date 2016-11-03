@@ -42,6 +42,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_not flash.empty?
     assert_redirected_to message_url
   end
+  
  test "should redirect destroy when not logged in" do
     assert_no_difference 'User.count' do
       delete :destroy, id: @user
@@ -56,5 +57,15 @@ class UsersControllerTest < ActionController::TestCase
     end
     assert_not flash.empty?
     assert_redirected_to message_url
+  end
+
+  test "should redirect following when not logged in" do
+    get :following, id: @user
+    assert_redirected_to login_url
+  end
+
+  test "should redirect followers when not logged in" do
+    get :followers, id: @user
+    assert_redirected_to login_url
   end
 end
