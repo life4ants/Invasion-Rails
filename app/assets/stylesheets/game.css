@@ -1,0 +1,52 @@
+#gameBoard
+{
+    width: 1200px;
+}
+#wrapper
+{
+  height: 1320px;
+}
+#gameview
+{
+  position: absolute;
+  top: 100px;
+}
+
+.green
+{
+	background-color: #18B84A;
+}
+
+.header_link a {
+	color: black;
+}
+
+button.btn-secondary:hover {
+	background-color: #CCC;
+}
+#left-nav
+{
+    width: 280px;
+    float: left;
+}
+
+#diceBox
+{
+    margin-bottom: 8px;
+}
+#tools
+{   
+    position: absolute;
+}
+#infoBox
+{
+    font-weight: bold;
+    margin-left: 10px;
+    min-width: 170px;
+    float: left;
+    border: solid;
+}
+.border
+{
+	border: solid;
+}
