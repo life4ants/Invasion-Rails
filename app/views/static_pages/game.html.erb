@@ -1,0 +1,14 @@
+<%= provide(:title, "Game") %>
+<div class="container-fluid">
+	<div class="wrapper">
+		<div id='gameview'>
+			<%= image_tag("game map.png", id: "gameBoard", alt: "game map") %>
+			<% 90.times do |n| %>
+			<div class="countrybox" id='country<%=n%>'>
+				<div class='icon' id='icon<%=n%>'></div>
+				<div id='label<%=n%>' class='label'></div>
+			</div>
+			<%end%>
+		</div>
+	</div>
+</div>
