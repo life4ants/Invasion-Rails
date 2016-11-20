@@ -23,8 +23,9 @@ nav a {
 {
     position: absolute;
     left: 4px;
-    font-weight: 900;
+    font-size: 0.6em;
     font-family: serif;
+    color: black;
     background-color: #F4ECC0;
 }
 .icon

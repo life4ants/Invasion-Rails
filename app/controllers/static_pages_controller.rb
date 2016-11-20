@@ -1,4 +1,6 @@
 class StaticPagesController < ApplicationController
+	before_action :logged_in_user, only: :game
+
   def home
   end
 
@@ -6,5 +8,8 @@ class StaticPagesController < ApplicationController
   end
 
   def info
+  end
+
+  def game
   end
 end
