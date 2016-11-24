@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   delete 'logout'   => 'sessions#destroy'
   get    'message'  => 'static_pages#flash'
   get    'game'     => 'static_pages#game'
-  post   'game'     => 'territories#edit'
+  post   'games/join' => 'games#join'
+
+  resources :games
   resources :users
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]

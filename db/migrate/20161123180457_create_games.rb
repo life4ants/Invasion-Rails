@@ -5,8 +5,8 @@ class CreateGames < ActiveRecord::Migration
     	t.text			:settings 			#array
     	t.integer		:card_set_value, default: 4
     	t.string		:phase
-    	t.boolean		:active
-    	t.boolean   :play_started
+    	t.boolean		:active,         default: false
+    	t.boolean   :play_started,   default: false
     	t.integer		:next_card
     	t.integer		:round
 

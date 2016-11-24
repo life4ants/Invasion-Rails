@@ -213,6 +213,6 @@ end
         _countryInfo[89][:borders] = [87,88]
 
 90.times do |n|
-  Territory_border.create!(name:  _countryInfo[n][:name],
+  TerritoryBorder.create!(name:  _countryInfo[n][:name],
               borders: _countryInfo[n][:borders])
 end

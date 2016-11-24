@@ -1,0 +1,15 @@
+<li>
+	<strong><%= game.nick_name %></strong><br>
+	Created: <%= game.created_at %><br>
+	Created by: <%= creator_of(game) %><br>
+  Number of players: <%= game.num_of_players %><br>
+  Players joined: <%= game.players.size %><br>
+  <ul class="players"><% game.players.each do |player| %>
+  <li><%= player.user.name %></li>
+  <%end%>
+  </ul>
+  Active: <%= game.active %>
+  <% unless has_joined(game) %>
+  <%= link_to "join", game, method: :join %>
+  <%end%>
+</li>

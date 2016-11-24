@@ -11,5 +11,6 @@ class StaticPagesController < ApplicationController
   end
 
   def game
+  
   end
 end
