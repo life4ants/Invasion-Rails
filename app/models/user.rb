@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-
+  has_many :players
+  has_many :games, through: :players
+  
 	attr_accessor :remember_token, :activation_token, :reset_token
   before_create :create_activation_digest
   before_save { self.email = email.downcase }
