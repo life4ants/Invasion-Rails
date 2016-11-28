@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124061048) do
+ActiveRecord::Schema.define(version: 20161128143923) do
 
   create_table "games", force: :cascade do |t|
     t.integer  "turn_index"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20161124061048) do
     t.boolean "mustTurnInCards",   default: false
     t.integer "numOfPasses",       default: 0
     t.integer "sets_turned_in",    default: 0
+    t.boolean "active",            default: true
   end
 
   add_index "players", ["game_id"], name: "index_players_on_game_id"

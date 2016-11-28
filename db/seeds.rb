@@ -216,3 +216,7 @@ end
   TerritoryBorder.create!(name:  _countryInfo[n][:name],
               borders: _countryInfo[n][:borders])
 end
+
+Game.create!(nick_name: "first game", num_of_players: 3)
+Player.create!(game_id: 1, user_id: 2, admin: true)
+Player.create!(game_id: 1, user_id: 3)

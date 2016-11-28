@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-	has_many :players
+	has_many :players, dependent: :destroy
   has_many :users, through: :players
   has_many :territory_owners
   has_many :territory_reserves, class_name: "TerritoryReserve"

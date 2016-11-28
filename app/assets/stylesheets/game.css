@@ -3,6 +3,10 @@
     padding-top: 0px;
     padding-bottom: 0px;
 }
+.number-box
+{
+    width: 75px;
+}
 .green
 {
 	background-color: #18B84A;   

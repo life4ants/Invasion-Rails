@@ -2,7 +2,7 @@ module GameHelper
 	def creator_of(game)
 		game.players.where(admin:true).first.user.name
 	end
-	def is_creator_of(game)
+	def is_creator_of?(game)
 		current_user == game.players.where(admin:true).first.user
 	end
 	def has_joined(game)

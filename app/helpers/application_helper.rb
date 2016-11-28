@@ -8,7 +8,7 @@ module ApplicationHelper
 		end
 	end
 	def header(controller, action)
-		if controller == "static_pages" && action == "game"
+		if controller == "games" && action == "play"
 			render 'layouts/game_header'
 		else
 			render 'layouts/header'
