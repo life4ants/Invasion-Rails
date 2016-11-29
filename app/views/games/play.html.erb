@@ -6,8 +6,7 @@
 		<div class="countrybox" id='country<%=n%>'>
 			<div class='icon' id='icon<%=n%>'></div>
 			<div id='label<%=n%>' class='label'>
-				<%= TerritoryBorder.find(n+1)[:name]%>
-				<br><%=n+1%>
+			<%= @game.territory_owners[:"terr#{n+1}Owner"] %>
 			</div>
 		</div>
 		<%end%>

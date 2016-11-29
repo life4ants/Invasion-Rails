@@ -1,10 +1,10 @@
 class GamesController < ApplicationController
+	include GameCode
 	before_action :logged_in_user, only: [:new, :index, :create, :join, :destroy, :edit, :update]
 	before_action :correct_user, only: [:destroy, :edit, :update]
 
 	def new
-		@game = Game.new(num_of_players: 3)
-		@game.settings = {random: true, tie: false, cards: 15}
+		@game = Game.new(num_of_players: 3, random_select: true, wins_tie: false, num_of_cards: 15)
 	end
 
 	def show
@@ -46,7 +46,7 @@ class GamesController < ApplicationController
 			if players_met?(@player.game)
 				@game.active = true
 				@game.save
-				#start the game
+				start_game(@game)
 			end
 			 flash[:info] = "Game joined sucessfully."
 			 redirect_to game_url
@@ -77,7 +77,8 @@ class GamesController < ApplicationController
 	private
 
 	def game_params
-    params.require(:game).permit(:num_of_players, :nick_name, :settings)
+    params.require(:game).permit(:num_of_players, 
+    				:nick_name, :random_select, :wins_tie, :num_of_cards)
   end
   def correct_user
   	@game = Game.find(params[:id])
