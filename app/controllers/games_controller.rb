@@ -4,6 +4,7 @@ class GamesController < ApplicationController
 
 	def new
 		@game = Game.new(num_of_players: 3)
+		@game.settings = {random: true, tie: false, cards: 15}
 	end
 
 	def show
@@ -76,7 +77,7 @@ class GamesController < ApplicationController
 	private
 
 	def game_params
-    params.require(:game).permit(:num_of_players, :nick_name)
+    params.require(:game).permit(:num_of_players, :nick_name, :settings)
   end
   def correct_user
   	@game = Game.find(params[:id])

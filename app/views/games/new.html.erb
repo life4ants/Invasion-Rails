@@ -1,16 +1,24 @@
+<%= provide(:title, "New Game") %>
 <h1>New Game</h1>
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@game) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+  <%= form_for(@game) do |f| %>
+  <div class="col-md-4">
+    <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :nick_name, "Nickname: " %> (optional)
-      <%= f.text_field :nick_name, class: 'form-control' %>
+    <%= f.label :nick_name, "Nickname: " %> (optional)
+    <%= f.text_field :nick_name, class: 'form-control' %>
 
-      <%= f.label :num_of_players, "Number of players:" %> (3-8)
-      <%= f.number_field :num_of_players, class: 'form-control number-box', max: 8, min: 3%>
+    <%= f.label :num_of_players, "Number of players:" %> (3-8)
+    <%= f.number_field :num_of_players, class: 'form-control number-box', max: 8, min: 3%>
 
-      <%= f.submit "Create Game", class: "btn btn-primary" %>
-    <% end %>
+    <%= f.submit "Create Game", class: "btn btn-primary" %>
   </div>
+  <div class="col-md-2">
+    <label class='radio-inline' >
+    <%= f.radio_button :settings, false %>
+    Selectable<br>
+    <%= f.radio_button :settings, true, selected: true%>
+    Random</label>
+  </div>
+  <% end %>
 </div>
