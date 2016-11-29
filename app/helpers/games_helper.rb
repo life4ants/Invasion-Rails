@@ -1,4 +1,4 @@
-module GameHelper
+module GamesHelper
 	def creator_of(game)
 		game.players.where(admin:true).first.user.name
 	end
