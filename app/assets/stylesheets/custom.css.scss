@@ -7,8 +7,10 @@
   box-sizing:         border-box;
 }
 
-
 /* universal */
+.navbar .btn-navbar {
+  display: inline-block;
+}
 
 body {
   padding-top: 60px;
@@ -59,20 +61,6 @@ p {
 
 /* header */
 
-#logo {
-  float: left;
-  margin-right: 10px;
-  font-size: 2.5em;
-  color: green;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  padding-top: 9px;
-  font-weight: bold;
-  a :hover {
-    color: #999;
-    text-decoration: none;
-  }
-}
 .profile_img {
   margin-top: 10px;
 }
@@ -189,9 +177,6 @@ aside {
   }
 }
 
-.users.follow {
-  padding: 0;
-}
 
 /* forms */
 
@@ -247,37 +232,6 @@ input {
   }
 }
 
-.microposts {
-  list-style: none;
-  padding: 0;
-  li {
-    padding: 10px 0;
-    border-top: 1px solid #e8e8e8;
-  }
-  .user {
-    margin-top: 5em;
-    padding-top: 0;
-  }
-  .content {
-    display: block;
-    font-size: 1.5em;
-    margin-left: 60px;
-    img {
-      display: block;
-      padding: 5px 0;
-    }
-  }
-  .timestamp {
-    color: $gray-light;
-    display: block;
-    margin-left: 60px;
-  }
-  .gravatar {
-    float: left;
-    margin-right: 10px;
-    margin-top: 5px;
-  }
-}
 
 aside {
   textarea {
