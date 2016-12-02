@@ -7,9 +7,8 @@ module ApplicationHelper
 			pageTitle + " | " + baseTitle
 		end
 	end
-
-	def header(controller = 'foo', action = 'bar')
-		if controller == "static_pages" && action == "game"
+	def header(controller, action)
+		if controller == "games" && action == "play"
 			render 'layouts/game_header'
 		else
 			render 'layouts/header'

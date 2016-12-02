@@ -1,0 +1,30 @@
+<%= provide(:title, "New Game") %>
+<h1>New Game</h1>
+<div class="row">
+  <%= form_for(@game) do |f| %>
+  <div class="col-md-4 col-md-offset-3">
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <%= f.label :nick_name, "Nickname: " %> (optional)
+    <%= f.text_field :nick_name, class: 'form-control' %>
+
+    <%= f.label :num_of_players, "Number of players:" %> (3-8)
+    <%= f.number_field :num_of_players, class: 'form-control number-box', max: 8, min: 3%>
+
+    <%= f.submit "Create Game", class: "btn btn-primary" %>
+  </div>
+  <!--<div class="col-md-3">
+    <label class='radio-inline' >
+    Method of Selecting Territories:<br>
+    <%= f.radio_button :random_select, false %>
+    <%= f.label :random_select, "Selectable" %><br>
+    <%= f.radio_button :random_select, true, selected: true%>
+    <%= f.label :random_select, "Random" %>
+    <br><br>
+    <%= f.radio_button :num_of_cards, 5 %>
+    <%= f.radio_button :num_of_cards, 10 %>
+    <%= f.radio_button :num_of_cards, 15, selected: true%>
+    </label>
+  </div> -->
+  <% end %>
+</div>

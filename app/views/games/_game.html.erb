@@ -1,0 +1,15 @@
+<li>
+  Game <%= game.id %>:
+	<%= link_to game.nick_name, game %><br>
+	<strong>Created: </strong><%= game.created_at %><br>
+	<strong>Created by: </strong> <%= creator_of(game) %><br>
+  <strong>Number of players: </strong><%= game.num_of_players %><br>
+  <strong>Players joined: </strong>
+  <%= game.players.count%>
+  <% if has_joined(game) %>
+  (you joined)
+  <% else %>
+  <%= link_to "join", game, method: :join, action: :post unless game.active%>
+  <%end%><br>
+  <strong>Active: </strong><%= game.active %>
+</li>

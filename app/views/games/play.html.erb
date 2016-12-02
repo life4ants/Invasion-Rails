@@ -1,0 +1,14 @@
+<%= provide(:title, "Playing Game #{@game.id}") %>
+<div class="wrapper">
+	<div id='gameview'>
+		<%= image_tag("game map.png", id: "gameBoard", alt: "game map") %>
+		<% 90.times do |n| %>
+		<div class="countrybox" id='country<%=n%>'>
+			<div class='icon' id='icon<%=n%>'></div>
+			<div id='label<%=n%>' class='label'>
+			<%= @game.territory_owners[:"terr#{n+1}Owner"] %>
+			</div>
+		</div>
+		<%end%>
+	</div>
+</div>
