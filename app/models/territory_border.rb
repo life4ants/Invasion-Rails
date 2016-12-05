@@ -4,7 +4,7 @@ class TerritoryBorder < ActiveRecord::Base
   def canFight?(country2)
     country1 = self[:borders]
     country1.each do |border|
-      if border == (country2-1)
+      if border == (country2)
         return true
       end
     end

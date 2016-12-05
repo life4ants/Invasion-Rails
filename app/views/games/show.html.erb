@@ -7,15 +7,26 @@
         <%= @game.nick_name %> 
         <%= link_to "edit", edit_game_path if is_creator_of?(@game)%>
       </h1>
-	Created: <%= @game.created_at %><br>
-	Created by: <%= creator_of(@game) %><br>
-  Number of players: <%= @game.num_of_players %><br>
-  Players joined: <%= @game.players.size %><br>
+	<strong>Created | </strong><%= @game.created_at %><br>
+	<strong>Created by | </strong><%= creator_of(@game) %><br>
+  <strong>Number of players | </strong><%= @game.num_of_players %><br>
+  <strong>Players joined | </strong><%= @game.players.size %><br>
   <ul class="players"><% @game.players.each do |player| %>
   <li><%= player.user.name %></li>
   <%end%>
   </ul>
-  Active: <%= @game.active %><br>
+  <strong>Active | </strong><%= @game.active %><br>
+  <% if @game.territory_owners.count == 1 %>
+  Territory Owners assigned<br>
+  <%end%>
+  <% if @game.territory_reserves.count == 1 %>
+  Territory Reserves assigned<br>
+  <%end%>
+  <% if @game.random_select %>
+  territories randomly selected<br>
+  <% else %>
+  territories manually selected<br>
+  <%end%>
   <% unless has_joined(@game) %>
   <%= link_to "join", @game, method: :join unless @game.active%>
   <%end%>

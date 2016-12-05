@@ -1,17 +1,16 @@
 <header class="navbar navbar-fixed-top green">
   <div class="container">
     <nav>
-      <button type="button" class="btn btn-navbar">
+     <!-- <button type="button" class="btn btn-navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
+      </button> -->
       <ul class="nav navbar-nav pull-right header_link">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <li><%= link_to "About",   info_path %></li>
-        <li><%= link_to "Info", info_path %></li>
         <% if logged_in? %>
           <li><%= link_to "Games", games_path %></li>
           <li><%= link_to "Users", users_path %></li>

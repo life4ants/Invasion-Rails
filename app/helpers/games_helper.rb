@@ -14,4 +14,9 @@ module GamesHelper
 		end
 		return false
 	end
+	def territory_owner(territory)
+		num = @game.territory_owners.first[:"terr#{territory}Owner"]
+		user = User.find(num)
+		gravatar_for(user, size: 20, class: "gravatar circle-img color#{num}")
+	end	
 end

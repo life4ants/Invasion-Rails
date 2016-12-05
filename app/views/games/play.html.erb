@@ -3,10 +3,12 @@
 	<div id='gameview'>
 		<%= image_tag("game map.png", id: "gameBoard", alt: "game map") %>
 		<% 90.times do |n| %>
-		<div class="countrybox" id='country<%=n%>'>
-			<div class='icon' id='icon<%=n%>'></div>
-			<div id='label<%=n%>' class='label'>
-			<%= @game.territory_owners[:"terr#{n+1}Owner"] %>
+		<div class="countrybox" id='country<%=n+1%>'>
+			<div class='icon' id='icon<%=n+1%>'>
+				<%= territory_owner(n+1) %>
+			</div>
+			<div id='label<%=n+1%>' class='label'>
+				<%= @game.territory_reserves.first[:"terr#{n+1}Reserves"] %>
 			</div>
 		</div>
 		<%end%>

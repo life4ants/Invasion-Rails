@@ -4,7 +4,7 @@ class GamesController < ApplicationController
 	before_action :correct_user, only: [:destroy, :edit, :update]
 
 	def new
-		@game = Game.new(num_of_players: 3, random_select: true, wins_tie: false, num_of_cards: 15)
+		@game = Game.new(num_of_players: 3)
 	end
 
 	def show
@@ -15,11 +15,16 @@ class GamesController < ApplicationController
 		@user = current_user
 		@game = Game.new(game_params)
 		time = Time.now.to_formatted_s(:number)
+
     if @game.save
     	if @game.nick_name.empty?
     		@game.nick_name = "#{@user.name}#{time}"
     	end
-    	@game.save
+    	@game.update(	turn_index: 1, 
+										card_set_value: 4, 				phase: "initialTroops",  
+										random_select: true, 			next_card: 1, 
+										wins_tie: false, 					round: 1,
+										num_of_cards: 15)
     	@game.territory_owners.create!
 		  @game.territory_reserves.create!
 		  @game.players.create!(user_id: @user.id, admin: true)
@@ -38,7 +43,7 @@ class GamesController < ApplicationController
 		@game = Game.find(params[:id])
 		if @game.active
 			flash[:info] = "You cannot join this game"
-			redirect_to game_url
+			return redirect_to game_url
 		end
 		@user = current_user
 		@player = @user.players.new(game_id: @game.id)
