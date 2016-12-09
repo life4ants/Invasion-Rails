@@ -19,4 +19,9 @@ module GamesHelper
 		user = User.find(num)
 		gravatar_for(user, size: 20, class: "gravatar circle-img color#{num}")
 	end	
+	def svg(name) 
+		file_path = "#{Rails.root}/app/assets/images/#{name}.svg" 
+		return File.read(file_path).html_safe if File.exists?(file_path) 
+		'(not found)' 
+	end
 end
