@@ -1,27 +1,17 @@
-
-#gameBoard
-{
-    width: 1200px;
-}
-object
-{
-    position: absolute;
-    top: 100px;
-}
+#gameBoard { width: 1200px; }
 #gameview
 {
   position: absolute;
   top: 0px;
 }
 
-.green
+.game-header
 {
-	background-color: #18B84A;
+    background-color: #18B84A;
+    min-height: 85px;
 }
-
-.header_link a {
-	color: black;
-}
+.green { background-color: #18B84A; }
+.header_link a { color: black; }
 
 button.btn-secondary:hover {
 	background-color: #CCC;
@@ -37,7 +27,7 @@ button.btn-secondary:hover {
     margin-bottom: 8px;
 }
 #tools
-{   
+{
     position: absolute;
 }
 #infoBox
@@ -63,7 +53,7 @@ button.btn-secondary:hover {
 }
 .green
 {
-	background-color: #18B84A;   
+	background-color: #18B84A;
 }
 
 nav a {
@@ -88,7 +78,7 @@ nav a {
 }
 .circle-img
 {
-    border: 2px solid; 
+    border: 2px solid;
     border-radius: 50%;
 }
 .color1
@@ -188,11 +178,11 @@ nav a {
  #territory56 { left: 342px; top: 825px; }
  #territory57 { left: 430px; top: 870px; }
  #territory58 { left: 395px; top: 945px; }
- #territory59 { left: 460px; top: 940px; }
+ #territory59 { left: 460px; top: 950px; }
  #territory60 { left: 495px; top: 890px; }
  #territory61 { left: 568px; top: 925px; }
  #territory62 { left: 518px; top: 965px; }
- #territory63 { left: 512px; top: 1023px; }
+ #territory63 { left: 495px; top: 1023px; }
  #territory64 { left: 550px; top: 1005px; }
  #territory65 { left: 595px; top: 1010px; }
  #territory66 { left: 604px; top: 950px; }
@@ -215,8 +205,8 @@ nav a {
  #territory83 { left: 900px; top: 1180px; }
  #territory84 { left: 925px; top: 1235px; }
  #territory85 { left: 992px; top: 1265px; }
- #territory86 { left: 1026px; top: 1042px; }
+ #territory86 { left: 1045px; top: 1030px; }
  #territory87 { left: 975px; top: 977px; }
- #territory88 { left: 1045px; top: 940px; }
+ #territory88 { left: 1045px; top: 940px; pointer-events: auto !important;}
  #territory89 { left: 1113px; top: 1002px; }
  #territory90 { left: 1145px; top: 998px; }

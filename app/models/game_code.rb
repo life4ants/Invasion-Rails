@@ -1,6 +1,6 @@
 module GameCode
 
-def start_game(game)
+	def start_game(game)
 		#shuffle cards
 		if game.random_select
 			a = Array(90)
@@ -28,5 +28,4 @@ def start_game(game)
 		end
 		game.territory_reserves.first.update(h)
 	end
-
 end

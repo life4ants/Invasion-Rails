@@ -1,17 +1,18 @@
 <%= provide(:title, "Playing Game #{@game.id}") %>
 <div class="wrapper">
-<%= svg('game_map(4)') %>
-	<div id='gameview'>
-	<%= image_tag("game_map_overlay.png", class: 'overlay') %> 
-		<% 90.times do |n| %>
-		<div class="countrybox" id='territory<%=n+1%>'>
-			<div class='icon' id='icon<%=n+1%>'>
-				<%= territory_owner(n+1) %>
-			</div>
-			<div id='label<%=n+1%>' class='T-label'>
-				<%= @game.territory_reserves.first[:"terr#{n+1}Reserves"] %>
-			</div>
-		</div>
-		<%end%>
-	</div>
+<%= svg('game_map') %>
+  <div id='gameview'>
+  <%= image_tag("game_map_overlay.png", class: 'overlay') %>
+    <% 90.times do |n| %>
+    <div class="countrybox" id='territory<%=n+1%>'>
+    	<div class='icon' id='icon<%=n+1%>'>
+        <%= svg_icon(n+10, "svg#{n+1}")%>
+      </div>
+      <div id='label<%=n+1%>' class='T-label'>
+        <%=n+1%>
+        <!--<%= @game.territory_reserves.first[:"terr#{n+1}Reserves"] %>-->
+      </div>
+    </div>
+    <%end%>
+  </div>
 </div>

@@ -3,34 +3,34 @@
 .overlay {pointer-events: none;}
 .waterBlue { fill: #99d9ea; }
 
-.purple1 { fill: #bc6dbc; stroke: red; }
-.nunavut { fill: #7d458f; stroke: red; }
-.purple2 { fill: #a349a3; stroke: red; }
-.purple3 { fill: #7d458f; stroke: red; }
-.purple4 { fill: #8b3f8b; stroke: red; }
+.purple1 { fill: #bc6dbc; stroke: yellow; }
+.nunavut { fill: #7d458f; stroke: yellow; }
+.purple2 { fill: #a349a3; stroke: yellow; }
+.purple3 { fill: #7d458f; stroke: yellow; }
+.purple4 { fill: #8b3f8b; stroke: yellow; }
 
-.green1 { fill: #53df7d; stroke: red; }
-.green2 { fill: #1e9b43; stroke: red; }
-.green3 { fill: #125f29; stroke: red; }
+.green1 { fill: #53df7d; stroke: yellow; }
+.green2 { fill: #1e9b43; stroke: yellow; }
+.green3 { fill: #125f29; stroke: yellow; }
 
 .red1 { fill: #f1545b; stroke: yellow; }
 .red2 { fill: #ef343e; stroke: yellow; }
 .red3 { fill: #c9101a; stroke: yellow; }
 
-.yellow1 { fill: #ffd237; stroke: red; }
-.yellow2 { fill: #ffc90e; stroke: red; }
-.yellow3 { fill: #d7a700; stroke: red; }
-.yellow4 { fill: #fff200; stroke: red; }
+.yellow1 { fill: #ffd237; stroke: blue; }
+.yellow2 { fill: #ffc90e; stroke: blue; }
+.yellow3 { fill: #d7a700; stroke: blue; }
+.yellow4 { fill: #fff200; stroke: blue; }
 
-.brown1 { fill: #ca985e; stroke: red; }
-.brown2 { fill: #b28050; stroke: red; }
-.brown3 { fill: #9a6842; stroke: red; }
-.brown4 { fill: #825034; stroke: red; }
+.brown1 { fill: #ca985e; stroke: yellow; }
+.brown2 { fill: #b28050; stroke: yellow; }
+.brown3 { fill: #9a6842; stroke: yellow; }
+.brown4 { fill: #825034; stroke: yellow; }
 
-.blue1 { fill: #35b8ff; stroke: red; }
-.blue2 { fill: #04a5ff; stroke: red; }
-.blue3 { fill: #0080ff; stroke: red; }
-.blue4 { fill: #0059b3; stroke: red; }
+.blue1 { fill: #35b8ff; stroke: yellow; }
+.blue2 { fill: #04a5ff; stroke: yellow; }
+.blue3 { fill: #0080ff; stroke: yellow; }
+.blue4 { fill: #0059b3; stroke: yellow; }
 
 .light-yellow { fill: #efe4b0; }
 
