@@ -4,4 +4,6 @@ class Player < ActiveRecord::Base
 
 	serialize :cards
 	validates :user_id, presence: true
+  validates :game_id, presence: true
+  validates :icon, presence: true
 end

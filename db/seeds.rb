@@ -5,15 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-User.create!(name:  "Example User",
-             email: "example@railstutorial.org",
-             password:              "foobar",
-             password_confirmation: "foobar",
-             admin:     true,
-             activated: true,
-             activated_at: Time.zone.now)
 
-names = ["Skyman1", "Babyman2", "Blueguy3", "Catman4", "Inky", "erkerla", "Bimbo", "Ashumashu"]
+
+names = ["Skyman1", "Babyman2", "Blueguy3", "Catman4", "Inky5", "erkerla6", "Bimbo7", "Ashumashu8"]
 
 8.times do |n|
   name  = names[n]
@@ -26,6 +20,15 @@ names = ["Skyman1", "Babyman2", "Blueguy3", "Catman4", "Inky", "erkerla", "Bimbo
               activated: true,
               activated_at: Time.zone.now)
 end
+
+User.create!(name:  "Brother Andy",
+             email: "brotherandy@live.com",
+             password:              "foobar",
+             password_confirmation: "foobar",
+             admin:     true,
+             activated: true,
+             activated_at: Time.zone.now)
+
 
 _countryInfo = []
 91.times do |n|
@@ -221,5 +224,5 @@ _countryInfo[90][:borders] = [88,89]
 end
 
 Game.create!(nick_name: "first game", num_of_players: 3, random_select: true, wins_tie: false, num_of_cards: 15)
-Player.create!(game_id: 1, user_id: 2, admin: true)
-Player.create!(game_id: 1, user_id: 3)
+Player.create!(game_id: 1, user_id: 2, admin: true, icon: 74)
+Player.create!(game_id: 1, user_id: 3, icon: 38)

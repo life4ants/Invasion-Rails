@@ -1,69 +1,45 @@
 class GamesController < ApplicationController
-	include GameCode
-	before_action :logged_in_user, only: [:new, :index, :create, :join, :destroy, :edit, :update]
-	before_action :correct_user, only: [:destroy, :edit, :update]
+  before_action :logged_in_user
+  before_action :admin_player, only: [:destroy, :edit, :update]
+  before_action :game_active, only: [:play]
 
-	def new
-		@game = Game.new(num_of_players: 3)
-	end
+  def new
+    @game = Game.new(num_of_players: 3)
+    @player = Player.new
+  end
 
-	def show
-		@game = Game.find(params[:id])
-	end
+  def show
+    @game = Game.find(params[:id])
+  end
 
-	def create
-		@user = current_user
-		@game = Game.new(game_params)
-		time = Time.now.to_formatted_s(:number)
-
+  def create
+    @user = current_user
+    @game = Game.new(game_params)
+    time = Time.now.to_formatted_s(:number)
+    @game.nick_name = "#{@user.name}#{time}" if @game.nick_name.empty?
     if @game.save
-    	if @game.nick_name.empty?
-    		@game.nick_name = "#{@user.name}#{time}"
-    	end
-    	@game.update(	turn_index: 1, 
-										card_set_value: 4, 				phase: "initialTroops",  
-										random_select: true, 			next_card: 1, 
-										wins_tie: false, 					round: 1,
-										num_of_cards: 15)
-    	@game.territory_owners.create!
-		  @game.territory_reserves.create!
-		  @game.players.create!(user_id: @user.id, admin: true)
+      @game.update(random_select: true, wins_tie: false, num_of_cards: 15)
+      @game.territory_owners.create!
+      @game.territory_reserves.create!
+      @game.players.create!(user_id: @user.id, admin: true, icon: params[:icon])
       flash[:info] = "Game created sucessfully."
       redirect_to games_url
     else
       render 'new'
     end
-	end
+  end
 
-	def index
-		@games = Game.all
-	end
+  def index
+    @games = Game.all
+  end
 
-	def join
-		@game = Game.find(params[:id])
-		if @game.active
-			flash[:info] = "You cannot join this game"
-			return redirect_to game_url
-		end
-		@user = current_user
-		@player = @user.players.new(game_id: @game.id)
-		if @player.save
-			if players_met?(@player.game)
-				@game.active = true
-				@game.save
-				start_game(@game)
-			end
-			 flash[:info] = "Game joined sucessfully."
-			 redirect_to game_url
-		end
-	end
-
-	def destroy
+  def destroy
     Game.find(params[:id]).destroy
     flash[:success] = "Game deleted"
     redirect_to games_url
   end
-	def update
+
+  def update
     if @game.update_attributes(game_params)
       flash[:success] = "Game updated"
       redirect_to @game
@@ -76,24 +52,30 @@ class GamesController < ApplicationController
   end
 
   def play
-  	@game = Game.find(params[:id])
+    @game = Game.find(params[:id])
   end
 
-	private
+  private
 
-	def game_params
-    params.require(:game).permit(:num_of_players, 
-    				:nick_name, :random_select, :wins_tie, :num_of_cards)
+  def game_params
+    params.require(:game).permit(:num_of_players,
+            :nick_name, :random_select, :wins_tie, :num_of_cards)
   end
-  def correct_user
-  	@game = Game.find(params[:id])
-  	@user = @game.players.where(admin:true).first.user
-  	unless @user == current_user
+
+  def admin_player
+    @game = Game.find(params[:id])
+    @user = @game.players.where(admin:true).first.user
+    unless @user == current_user
       flash[:danger] = "Action not allowed!"
       redirect_to(message_url)
     end
   end
-  def players_met?(game)
-  	game.players.count == game.num_of_players
+
+  def game_active
+    @game = Game.find(params[:id])
+    unless @game.active
+      flash[:danger] = "This game is not active!"
+      redirect_to root_path
+    end
   end
 end

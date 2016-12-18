@@ -9,7 +9,7 @@
   <% if has_joined(game) %>
   (you joined)
   <% else %>
-  <%= link_to "join", game, method: :join, action: :post unless game.active%>
+  <%= link_to "join", new_player_path(id: game.id) unless game.active%>
   <%end%><br>
   <strong>Active: </strong><%= game.active %>
 </li>

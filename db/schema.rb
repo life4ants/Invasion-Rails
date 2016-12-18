@@ -11,23 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161123180457) do
+ActiveRecord::Schema.define(version: 20161216160148) do
 
   create_table "games", force: :cascade do |t|
     t.string   "nick_name"
     t.integer  "num_of_players"
-    t.integer  "turn_index"
+    t.integer  "turn_index",     default: 1
     t.boolean  "random_select"
     t.boolean  "wins_tie"
     t.integer  "num_of_cards"
     t.integer  "card_set_value", default: 4
-    t.string   "phase"
+    t.string   "phase",          default: "initialTroops"
     t.boolean  "active",         default: false
     t.boolean  "play_started",   default: false
-    t.integer  "next_card"
-    t.integer  "round"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "next_card",      default: 1
+    t.integer  "round",          default: 1
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   create_table "players", force: :cascade do |t|
@@ -41,8 +41,10 @@ ActiveRecord::Schema.define(version: 20161123180457) do
     t.boolean "can_turn_in_cards", default: false
     t.boolean "getsACard",         default: false
     t.boolean "mustTurnInCards",   default: false
+    t.integer "icon"
   end
 
+  add_index "players", ["active"], name: "index_players_on_active"
   add_index "players", ["game_id"], name: "index_players_on_game_id"
   add_index "players", ["user_id"], name: "index_players_on_user_id"
 

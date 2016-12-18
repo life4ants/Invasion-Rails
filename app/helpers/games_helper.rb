@@ -42,6 +42,10 @@ module GamesHelper
     svg_icon(code)
   end
 
+  def icon_for(player)
+    svg_icon(player.icon, "player#{player.id}")
+  end
+
   def svg_icon(numcode, id) #takes a number (0-99) and returns the shape and color for that number
     color = (numcode - numcode % 10)/10
     shape = numcode % 10

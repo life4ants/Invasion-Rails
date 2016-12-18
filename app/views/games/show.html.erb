@@ -4,7 +4,7 @@
     <section class="user_info">
     <%= link_to "<- games", games_path %><br><br>
       <h1>
-        <%= @game.nick_name %> 
+        <%= @game.nick_name %>
         <%= link_to "edit", edit_game_path if is_creator_of?(@game)%>
       </h1>
 	<strong>Created | </strong><%= @game.created_at %><br>
@@ -12,7 +12,10 @@
   <strong>Number of players | </strong><%= @game.num_of_players %><br>
   <strong>Players joined | </strong><%= @game.players.size %><br>
   <ul class="players"><% @game.players.each do |player| %>
-  <li><%= player.user.name %></li>
+  <li>
+    <%= icon_for(player) %>
+    <%= player.user.name %>
+  </li>
   <%end%>
   </ul>
   <strong>Active | </strong><%= @game.active %><br>
@@ -28,7 +31,7 @@
   territories manually selected<br>
   <%end%>
   <% unless has_joined(@game) %>
-  <%= link_to "join", @game, method: :join unless @game.active%>
+  <%= link_to "join", new_player_path(id: @game.id) unless @game.active%>
   <%end%>
   <% if is_creator_of?(@game) %>
     <%= link_to "delete game", @game, method: :delete,

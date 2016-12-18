@@ -12,7 +12,7 @@ class CreatePlayers < ActiveRecord::Migration
     	t.boolean    :getsACard, default: false
     	t.boolean    :mustTurnInCards, default: false
     end
+    add_index :players, :active
   end
 end
 
-			
