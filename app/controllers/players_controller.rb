@@ -9,11 +9,11 @@ class PlayersController < ApplicationController
 
   def create
     @game = Game.find(params[:game_id])
-    if @game.active
-      flash[:danger] = "You cannot join this game"
-      return redirect_to game_url
-    end
     @user = current_user
+    if @game.active || @game.players.find_by(user_id: @user.id)
+      flash[:danger] = "You cannot join this game"
+      return redirect_to game_url(id: @game.id)
+    end
     @player = @user.players.new(game_id: @game.id, icon: params[:player][:icon])
     #logger.debug("icon: #{params[:player[:icon]]}")
     if @player.save
@@ -22,8 +22,8 @@ class PlayersController < ApplicationController
         @game.save
         start_game(@game)
       end
-       flash[:success] = "Game joined sucessfully."
-       redirect_to game_url
+      flash[:success] = "Game joined sucessfully."
+      redirect_to game_url(id: @game.id)
     else
       render 'players/new'
     end
@@ -32,7 +32,7 @@ class PlayersController < ApplicationController
   private
 
   def players_met?(game)
-    game.players.count == game.num_of_players
+    game.players.count >= game.num_of_players
   end
 
 end

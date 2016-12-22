@@ -1,2 +1,8 @@
 <%= link_to "See Games", games_path %><br>
-<%= link_to "New Game", new_game_path %>
+<%= link_to "New Game", new_game_path %><br>
+<h5>My Games:</h5>
+<div>
+<% Array(@games).each do |game| %>
+<%= link_to game.nick_name, game_path(id: game.id) %>
+<%= link_to("play", play_path(id: game.id)) %><br>
+<%end%>

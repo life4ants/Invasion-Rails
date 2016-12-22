@@ -10,6 +10,10 @@ gem 'will_paginate',           '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bootstrap-sass',  '3.2.0.0'
 gem 'sass-rails',   '5.0.6'
+gem 'formtastic', '~> 3.1', '>= 3.1.3'
+gem 'formtastic-bootstrap', '~> 3.1', '>= 3.1.1'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.1'
+gem 'pusher', '~> 1.3'
 gem 'uglifier',     '2.5.3'
 gem 'coffee-rails', '4.1.0'
 gem 'jquery-rails', '4.0.3'
@@ -20,6 +24,7 @@ gem 'sdoc',         '0.4.0', group: :doc
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
   gem 'byebug',      '3.4.0'
+  gem 'bullet', '~> 5.4', '>= 5.4.3'
   gem 'web-console', '~> 3.2'
   gem 'spring',      '2.0.0'
 end

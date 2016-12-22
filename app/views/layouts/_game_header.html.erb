@@ -1,52 +1,50 @@
 <header class="navbar navbar-fixed-top game-header">
 	<div class="container-fluid">
-		<div id="left-nav" class="collapse navbar-collapse">
-			<div id='diceBox'>
-		  	<%= image_tag("dice_red6.png", alt: "dice") %>
-		  	<%= image_tag("dice_red5.png", alt: "dice") %>
-		  	<%= image_tag("dice_red4.png", alt: "dice") %>
-		  	<%= image_tag("dice_white3.png", alt: "dice") %>
-		  	<%= image_tag("dice_white2.png", alt: "dice") %>
-			</div>
-		  <div id='menuBox'>      
-		  <button class="btn btn-secondary btn-sm"><strong>Tools</strong></button>
-		  <button class="btn btn-secondary btn-sm"><strong>Turn In Cards</strong></button>
+		<div id="left-nav">
+		  <div id='menuBox'>
 		  <button class="btn btn-secondary btn-sm" id='endTurn' onclick="endTurn()"><strong>End Turn</strong></button>
+		  <button class="btn btn-secondary btn-sm" id='sidebar'>Hide Sidebar</button>
 		  </div>
 	  </div>
 	  <div  id='infoBox'>
-	  	Player: A dude<br>
-	  	Territories: 15<br>
+	  	Player: <%= icon_for(@current_player) %>
+	  	<%= @current_player.user.name %><br>
+	  	Territories: <%= @current_player.territories %><br>
 	  	Reserves: 0<br>
-	  	Indiana vs Ohio
+	  	<div id='message'></div>
 	  </div>
-	  <div class="nav navbar-toggle collapsed" data-toggle="collapse" data-target='#menu target'>
-	  	<button class="btn btn-secondary btn-sm"><strong>End Turn</strong></button>
-	  	<hr>
-      <nav class="navbar navbar-default" role='navigation'>
-		  	<div class="dropdown">
-	        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<button type="button">
-			        <span class="sr-only">Toggle navigation</span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			      </button>
-	        </a>
-	        <ul class="dropdown-menu">
-	          <li><%= link_to "Home", root_path %></li>
-			    	<li><%= link_to "Help", help_path %></li>
-			    	<li><%= link_to "game", game_path %></li>
-	        </ul>
-	      </div>
-	    </nav>
-	  </div>
-	  <div class="collapse navbar-collapse" id="mu-dd">
-		  <ul class="nav navbar-nav pull-right header_link border">
-		    <li><%= link_to "Home", root_path %></li>
-		    <li><%= link_to "Help", help_path %></li>
-		    <li><%= link_to "game", game_path %></li>
-		  </ul>
-		</div>
-	</div>        
+
+	  <div class="navbar-default green" role='navigation'>
+	  	<div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+      </div>
+			<div class="collapse navbar-collapse" id='collapse'>
+        <ul class="header_link nav navbar-nav pull-right">
+          <li><%= link_to "Home", root_path %></li>
+          <li><%= link_to "Help", help_path %></li>
+          <li><%= link_to "Games", games_path %></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <%= gravatar_for current_user, size: 30 %>
+              <%= current_user.name %> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Log out", logout_path, method: "delete" %>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+	</div>
 </header>

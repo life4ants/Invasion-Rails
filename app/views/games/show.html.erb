@@ -11,7 +11,7 @@
 	<strong>Created by | </strong><%= creator_of(@game) %><br>
   <strong>Number of players | </strong><%= @game.num_of_players %><br>
   <strong>Players joined | </strong><%= @game.players.size %><br>
-  <ul class="players"><% @game.players.each do |player| %>
+  <ul class="players"><% @players.each do |player| %>
   <li>
     <%= icon_for(player) %>
     <%= player.user.name %>
@@ -35,7 +35,7 @@
   <%end%>
   <% if is_creator_of?(@game) %>
     <%= link_to "delete game", @game, method: :delete,
-      data: { confirm: "Are you sure you want to delete this game?" } %>
+      data: { confirm: "Are you sure you want to delete this game?" } %><br>
   <%end%>
   <% if @game.active && has_joined(@game) %>
   	<%= link_to "play game", play_path %>

@@ -1,6 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+
 @mixin box_sizing {
   -moz-box-sizing:    border-box;
   -webkit-box-sizing: border-box;
@@ -12,7 +13,9 @@
   display: inline-block;
 }
 
-
+body {
+  padding-top: 60px;
+}
 
 section {
   overflow: auto;
@@ -68,6 +71,28 @@ p {
   }
   background-color: gray;
 }
+
+.navbar-default {
+  .navbar-nav li a {
+    color: black;
+  }
+  .navbar-nav li a:hover {
+    color: #777;
+  }
+  .navbar-toggle {
+    border-color: #222;
+  }
+  .navbar-toggle:focus {
+    background-color: transparent;
+  }
+  .navbar-toggle:hover {
+    background-color: #999;
+  }
+  .navbar-toggle .icon-bar {
+  background-color: #555;
+  }
+}
+
 
 /* footer */
 

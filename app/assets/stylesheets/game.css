@@ -1,10 +1,3 @@
-#gameBoard { width: 1200px; }
-#gameview
-{
-  position: absolute;
-  top: 0px;
-}
-
 .game-header
 {
     background-color: #18B84A;
@@ -16,27 +9,33 @@
 button.btn-secondary:hover {
 	background-color: #CCC;
 }
+button.btn-secondary {
+   margin: 2px;
+   font-weight: bold;
+}
 #left-nav
 {
-    width: 280px;
+    width: 140px;
     float: left;
+    margin-top: 5px;
 }
 
 #diceBox
 {
-    margin-bottom: 8px;
+    margin: 5px 0px 0px 5px;
+    float: left;
 }
-#tools
-{
-    position: absolute;
-}
+
 #infoBox
 {
     font-weight: bold;
-    margin-left: 10px;
+    margin: 5px 10px 5px 10px;
     min-width: 170px;
     float: left;
     border: solid;
+}
+#message{
+    min-height: 20px;
 }
 .border
 {
@@ -46,10 +45,7 @@ button.btn-secondary:hover {
 {
     width: 75px;
 }
-.green
-{
-	background-color: #18B84A;
-}
+
 
 nav a {
 	color: white;
@@ -57,19 +53,19 @@ nav a {
 #gameview
 {
 	position: absolute;
+    top: 0px;
     pointer-events: none;
 }
 #gameBoard
 {
     width: 1200px;
 }
-.wrapper
+.map_wrapper
 {
-    position: absolute;
-    top: 100px;
-	height: 1360px;
+	height: 1318px;
     width: 1200px;
     background-color: #222;
+    margin-left: -15px;
 }
 .circle-img
 {

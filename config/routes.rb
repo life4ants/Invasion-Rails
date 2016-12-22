@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   delete 'logout'   => 'sessions#destroy'
   get    'message'  => 'static_pages#flash'
   get    '/games/:id/play'  => 'games#play', as: :play
+  get    '/games/mess'  => 'games#mess'
 
   resources :players
   resources :games

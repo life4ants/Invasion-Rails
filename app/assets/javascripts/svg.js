@@ -11,11 +11,24 @@ $(document).on('ready page:change', function() {
   onResize();
 
 $("#territory88").click(function(){
-  clicker(88);});
+    clicker(88);
+  });
 
 });
 
+
+var pusher = new Pusher('1df273322935844f45c6', {
+  encrypted: true
+});
+
+var channel = pusher.subscribe('foo_channel');
+
+channel.bind('hello', function(data) {
+  $("#message").html(data.message);
+});
+
 var selectedCountry = [];
+var odd = false;
 
 
 function clicker(index)
@@ -43,9 +56,23 @@ function deselect(country)
   $(id).css("stroke-width", "0");
   $("#svg"+country).css("background-color", "transparent");
 }
-function endTurn() {
-  fun(1);
+function endTurn()
+{
+  if (odd){
+    $("#message").html("");
+    odd = false;
+  }
+  else{
+    $.ajax("/games/mess");
+    odd = true;
+  }
 }
+
+function turnInCards()
+{
+  $("#message").html(gamePhase);
+}
+
 function fun(n)
 {
   if (n == 1)
@@ -66,25 +93,8 @@ function fun(n)
   }
 }
 
-//unused:
-function hasClass(el, className) {
-  if (el.classList)
-    return el.classList.contains(className)
-  else
-    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-}
-
-function addClass(el, className) {
-  if (el.classList)
-    el.classList.add(className)
-  else if (!hasClass(el, className)) el.className += " " + className
-}
-
-function removeClass(el, className) {
-  if (el.classList)
-    el.classList.remove(className)
-  else if (hasClass(el, className)) {
-    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-    el.className=el.className.replace(reg, ' ')
-  }
+function tools()
+{
+  console.log(user);
+  console.log(user.name);
 }

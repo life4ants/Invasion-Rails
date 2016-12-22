@@ -1,18 +1,47 @@
 <%= provide(:title, "Playing Game #{@game.id}") %>
-<div class="wrapper">
-<%= svg('game_map') %>
-  <div id='gameview'>
-  <%= image_tag("game_map_overlay.png", class: 'overlay') %>
-    <% 90.times do |n| %>
-    <div class="countrybox" id='territory<%=n+1%>'>
-    	<div class='icon' id='icon<%=n+1%>'>
-        <%= svg_icon(n+10, "svg#{n+1}")%>
-      </div>
-      <div id='label<%=n+1%>' class='T-label'>
-        <%=n+1%>
-        <!--<%= @game.territory_reserves.first[:"terr#{n+1}Reserves"] %>-->
-      </div>
+<script> var gamePhase = '<%= @game.phase %>'; </script>
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+    		<div id='diceBox'>
+			  	<%= image_tag("dice_red6.png", alt: "dice") %>
+			  	<%= image_tag("dice_red5.png", alt: "dice") %>
+			  	<%= image_tag("dice_red4.png", alt: "dice") %>
+			  	<%= image_tag("dice_white3.png", alt: "dice") %>
+			  	<%= image_tag("dice_white2.png", alt: "dice") %>
+			  </div>
+
     </div>
-    <%end%>
-  </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="map_wrapper">
+					<%= svg('game_map') %>
+				  <div id='gameview'>
+				  <%= image_tag("game_map_overlay.png", class: 'overlay') %>
+				    <% (1..90).each do |n| %>
+				    <div class="countrybox" id='territory<%=n%>'>
+				    	<div class='icon' id='icon<%=n%>'>
+				        <%= terri_owner(n)%>
+				      </div>
+				      <div id='label<%=n%>' class='T-label'>
+				        <%=n%>
+				        <!--<%= @reserves[:"terr#{n}Reserves"] %>-->
+				      </div>
+				    </div>
+				    <%end%>
+				  </div>
+				</div>
+    </div>
+        <!-- /#page-content-wrapper -->
 </div>
+
+<script type="text/javascript">
+	$("#sidebar").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+    $(this).html() == "Show Sidebar" ? $(this).html("Hide Sidebar") : $(this).html("Show Sidebar");
+  });
+</script>

@@ -5,11 +5,11 @@ class GamesController < ApplicationController
 
   def new
     @game = Game.new(num_of_players: 3)
-    @player = Player.new
   end
 
   def show
     @game = Game.find(params[:id])
+    @players = @game.players include: :users
   end
 
   def create
@@ -21,7 +21,7 @@ class GamesController < ApplicationController
       @game.update(random_select: true, wins_tie: false, num_of_cards: 15)
       @game.territory_owners.create!
       @game.territory_reserves.create!
-      @game.players.create!(user_id: @user.id, admin: true, icon: params[:icon])
+      @game.players.create!(user_id: @user.id, admin: true, icon: params[:game][:player][:icon])
       flash[:info] = "Game created sucessfully."
       redirect_to games_url
     else
@@ -53,6 +53,14 @@ class GamesController < ApplicationController
 
   def play
     @game = Game.find(params[:id])
+    @owners = @game.territory_owners.first
+    @reserves = @game.territory_reserves.first
+    @current_player = current_player(@game)
+  end
+
+  def mess
+    Pusher.trigger('foo_channel', 'hello', { message: 'message two'  })
+    redirect_to request.referrer || root_url
   end
 
   private
@@ -77,5 +85,10 @@ class GamesController < ApplicationController
       flash[:danger] = "This game is not active!"
       redirect_to root_path
     end
+  end
+
+  def current_player(game)
+    players = game.player_ids
+    Player.find(players[game.turn_index])
   end
 end

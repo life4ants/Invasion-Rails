@@ -31,22 +31,15 @@ module GamesHelper
 
   def terri_owner(territory)
     num = @game.territory_owners.first[:"terr#{territory}Owner"]
-    case num
-    when 1
-      code = 7
-    when 4
-      code = 48
-    when 5
-      code = 96
-    end
-    svg_icon(code)
+    icon = Player.find(num).icon
+    svg_icon(icon, "svg#{territory}", 25)
   end
 
   def icon_for(player)
-    svg_icon(player.icon, "player#{player.id}")
+    svg_icon(player.icon, "player#{player.id}", 15)
   end
 
-  def svg_icon(numcode, id) #takes a number (0-99) and returns the shape and color for that number
+  def svg_icon(numcode, id, size) #returns the shape and color for a icon code
     color = (numcode - numcode % 10)/10
     shape = numcode % 10
     shapes =
@@ -65,7 +58,7 @@ module GamesHelper
       "-4.99,-6.1 6.75,3.94 -0.45,-7.86 3.14,7.16 4.26,-6.63 -1.67,7.64 7.34,-2.86 -5.84,5.2 7.62,2 -7.78,0.77z'", type: "path"}] # star
     colors = ["#OOOOOO", "#FF00FF", "#FF0000", "#FFFF00", "#00FF00", "#00FFFF", "#0000FF", "#FFFFFF", "#764710", "#FF8000"];
     data = <<-EOS.gsub(/^[\s\t]*|[\s\t]*\n/, '') # no space "\s" for new line "\n"; kill tabs too
-    <svg id='#{id}' version='1.1' height='25' width='25' viewbox='0 0 26.5 28.5' style='background-color: none'>
+    <svg id='#{id}' version='1.1' height='#{size}' width='#{size}' viewbox='0 0 26.5 28.5' style='background-color: none'>
       <#{shapes[shape][:type]} style='fill: #{colors[color]}; stroke:black; stroke-width:0.8'
       #{shapes[shape][:cords]} />
     </svg>
