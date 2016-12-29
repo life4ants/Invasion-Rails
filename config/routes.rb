@@ -8,8 +8,10 @@ Rails.application.routes.draw do
   post   'login'    => 'sessions#create'
   delete 'logout'   => 'sessions#destroy'
   get    'message'  => 'static_pages#flash'
-  get    '/games/:id/play'  => 'games#play', as: :play
-  get    '/games/mess'  => 'games#mess'
+
+  get    '/games/:id/play'          => 'games#play', as: :play
+  post   '/games/mess'              => 'games#mess'
+  post   'games/increment_reserves' => 'games#increment_reserves'
 
   resources :players
   resources :games

@@ -9,7 +9,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    @players = @game.players include: :users
+    @players = @game.players.includes(:user)
   end
 
   def create
@@ -56,11 +56,33 @@ class GamesController < ApplicationController
     @owners = @game.territory_owners.first
     @reserves = @game.territory_reserves.first
     @current_player = current_player(@game)
+    players = @game.player_ids
+    players_array = {}
+    players.each do |n|
+      players_array[n] = Player.find(n).icon
+    end
+    gon.watch.push(
+    user: @current_user.attributes.slice("id", "name"),
+    owners: @owners,
+    reserves: @reserves,
+    game: @game.id,
+    players: players_array)
   end
 
   def mess
-    Pusher.trigger('foo_channel', 'hello', { message: 'message two'  })
-    redirect_to request.referrer || root_url
+    data = params[:message]
+    Pusher.trigger('notifications', 'all', { message: data })
+    render nothing: true, status: :ok
+  end
+
+  def increment_reserves()
+    game = Game.find(params[:game])
+    index = params[:index]
+    reserves = game.territory_reserves.first
+    value = reserves[:"terr#{index}Reserves"]
+    reserves.update("terr#{index}Reserves": value + 1)
+    gon.watch.reserves = reserves
+    render nothing: true, status: :ok
   end
 
   private

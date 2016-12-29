@@ -1,5 +1,5 @@
+<%= javascript_include_tag "play" %>
 <%= provide(:title, "Playing Game #{@game.id}") %>
-<script> var gamePhase = '<%= @game.phase %>'; </script>
 <div id="wrapper">
 
     <!-- Sidebar -->
@@ -24,11 +24,8 @@
 				    <% (1..90).each do |n| %>
 				    <div class="countrybox" id='territory<%=n%>'>
 				    	<div class='icon' id='icon<%=n%>'>
-				        <%= terri_owner(n)%>
 				      </div>
 				      <div id='label<%=n%>' class='T-label'>
-				        <%=n%>
-				        <!--<%= @reserves[:"terr#{n}Reserves"] %>-->
 				      </div>
 				    </div>
 				    <%end%>

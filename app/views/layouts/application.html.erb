@@ -9,11 +9,9 @@
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= render 'layouts/shim' %>
+    <%= include_gon %>
   </head>
   <body>
-    <% if logged_in? %>
-      <script type="text/javascript"> var user = <%= current_user.to_json.html_safe %>; </script>
-    <%end%>
      <%= header(controller_name, action_name) %>
      <div class="container-fluid">
      <% flash.each do |message_type, message| %>
