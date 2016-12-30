@@ -219,8 +219,9 @@ _countryInfo[90][:borders] = [88,89]
 
 
 90.times do |n|
-  TerritoryBorder.create!(name:  _countryInfo[n+1][:name],
-              borders: _countryInfo[n+1][:borders])
+  Territory.create!(name:  _countryInfo[n+1][:name],
+              borders: _countryInfo[n+1][:borders],
+              group: "North America")
 end
 
 Game.create!(nick_name: "first game", num_of_players: 3, random_select: true, wins_tie: false, num_of_cards: 15)

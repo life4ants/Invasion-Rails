@@ -11,12 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216160148) do
+ActiveRecord::Schema.define(version: 20161230184003) do
+
+  create_table "game_territories", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "territory_id"
+    t.integer  "player_id"
+    t.integer  "troops",       default: 1
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "game_territories", ["game_id"], name: "index_game_territories_on_game_id"
+  add_index "game_territories", ["player_id"], name: "index_game_territories_on_player_id"
+  add_index "game_territories", ["territory_id"], name: "index_game_territories_on_territory_id"
 
   create_table "games", force: :cascade do |t|
     t.string   "nick_name"
     t.integer  "num_of_players"
-    t.integer  "turn_index",     default: 1
+    t.integer  "current_player"
     t.boolean  "random_select"
     t.boolean  "wins_tie"
     t.integer  "num_of_cards"
@@ -29,6 +42,9 @@ ActiveRecord::Schema.define(version: 20161216160148) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
   end
+
+  add_index "games", ["active"], name: "index_games_on_active"
+  add_index "games", ["current_player"], name: "index_games_on_current_player"
 
   create_table "players", force: :cascade do |t|
     t.integer "game_id"
@@ -152,202 +168,13 @@ ActiveRecord::Schema.define(version: 20161216160148) do
     t.integer "number"
   end
 
-  create_table "territory_borders", force: :cascade do |t|
+  create_table "territories", force: :cascade do |t|
     t.string "name"
+    t.string "group"
     t.text   "borders"
   end
 
-  create_table "territory_owners", force: :cascade do |t|
-    t.integer "game_id"
-    t.integer "terr1Owner"
-    t.integer "terr2Owner"
-    t.integer "terr3Owner"
-    t.integer "terr4Owner"
-    t.integer "terr5Owner"
-    t.integer "terr6Owner"
-    t.integer "terr7Owner"
-    t.integer "terr8Owner"
-    t.integer "terr9Owner"
-    t.integer "terr10Owner"
-    t.integer "terr11Owner"
-    t.integer "terr12Owner"
-    t.integer "terr13Owner"
-    t.integer "terr14Owner"
-    t.integer "terr15Owner"
-    t.integer "terr16Owner"
-    t.integer "terr17Owner"
-    t.integer "terr18Owner"
-    t.integer "terr19Owner"
-    t.integer "terr20Owner"
-    t.integer "terr21Owner"
-    t.integer "terr22Owner"
-    t.integer "terr23Owner"
-    t.integer "terr24Owner"
-    t.integer "terr25Owner"
-    t.integer "terr26Owner"
-    t.integer "terr27Owner"
-    t.integer "terr28Owner"
-    t.integer "terr29Owner"
-    t.integer "terr30Owner"
-    t.integer "terr31Owner"
-    t.integer "terr32Owner"
-    t.integer "terr33Owner"
-    t.integer "terr34Owner"
-    t.integer "terr35Owner"
-    t.integer "terr36Owner"
-    t.integer "terr37Owner"
-    t.integer "terr38Owner"
-    t.integer "terr39Owner"
-    t.integer "terr40Owner"
-    t.integer "terr41Owner"
-    t.integer "terr42Owner"
-    t.integer "terr43Owner"
-    t.integer "terr44Owner"
-    t.integer "terr45Owner"
-    t.integer "terr46Owner"
-    t.integer "terr47Owner"
-    t.integer "terr48Owner"
-    t.integer "terr49Owner"
-    t.integer "terr50Owner"
-    t.integer "terr51Owner"
-    t.integer "terr52Owner"
-    t.integer "terr53Owner"
-    t.integer "terr54Owner"
-    t.integer "terr55Owner"
-    t.integer "terr56Owner"
-    t.integer "terr57Owner"
-    t.integer "terr58Owner"
-    t.integer "terr59Owner"
-    t.integer "terr60Owner"
-    t.integer "terr61Owner"
-    t.integer "terr62Owner"
-    t.integer "terr63Owner"
-    t.integer "terr64Owner"
-    t.integer "terr65Owner"
-    t.integer "terr66Owner"
-    t.integer "terr67Owner"
-    t.integer "terr68Owner"
-    t.integer "terr69Owner"
-    t.integer "terr70Owner"
-    t.integer "terr71Owner"
-    t.integer "terr72Owner"
-    t.integer "terr73Owner"
-    t.integer "terr74Owner"
-    t.integer "terr75Owner"
-    t.integer "terr76Owner"
-    t.integer "terr77Owner"
-    t.integer "terr78Owner"
-    t.integer "terr79Owner"
-    t.integer "terr80Owner"
-    t.integer "terr81Owner"
-    t.integer "terr82Owner"
-    t.integer "terr83Owner"
-    t.integer "terr84Owner"
-    t.integer "terr85Owner"
-    t.integer "terr86Owner"
-    t.integer "terr87Owner"
-    t.integer "terr88Owner"
-    t.integer "terr89Owner"
-    t.integer "terr90Owner"
-  end
-
-  add_index "territory_owners", ["game_id"], name: "index_territory_owners_on_game_id"
-
-  create_table "territory_reserves", force: :cascade do |t|
-    t.integer "game_id"
-    t.integer "terr1Reserves",  default: 0
-    t.integer "terr2Reserves",  default: 0
-    t.integer "terr3Reserves",  default: 0
-    t.integer "terr4Reserves",  default: 0
-    t.integer "terr5Reserves",  default: 0
-    t.integer "terr6Reserves",  default: 0
-    t.integer "terr7Reserves",  default: 0
-    t.integer "terr8Reserves",  default: 0
-    t.integer "terr9Reserves",  default: 0
-    t.integer "terr10Reserves", default: 0
-    t.integer "terr11Reserves", default: 0
-    t.integer "terr12Reserves", default: 0
-    t.integer "terr13Reserves", default: 0
-    t.integer "terr14Reserves", default: 0
-    t.integer "terr15Reserves", default: 0
-    t.integer "terr16Reserves", default: 0
-    t.integer "terr17Reserves", default: 0
-    t.integer "terr18Reserves", default: 0
-    t.integer "terr19Reserves", default: 0
-    t.integer "terr20Reserves", default: 0
-    t.integer "terr21Reserves", default: 0
-    t.integer "terr22Reserves", default: 0
-    t.integer "terr23Reserves", default: 0
-    t.integer "terr24Reserves", default: 0
-    t.integer "terr25Reserves", default: 0
-    t.integer "terr26Reserves", default: 0
-    t.integer "terr27Reserves", default: 0
-    t.integer "terr28Reserves", default: 0
-    t.integer "terr29Reserves", default: 0
-    t.integer "terr30Reserves", default: 0
-    t.integer "terr31Reserves", default: 0
-    t.integer "terr32Reserves", default: 0
-    t.integer "terr33Reserves", default: 0
-    t.integer "terr34Reserves", default: 0
-    t.integer "terr35Reserves", default: 0
-    t.integer "terr36Reserves", default: 0
-    t.integer "terr37Reserves", default: 0
-    t.integer "terr38Reserves", default: 0
-    t.integer "terr39Reserves", default: 0
-    t.integer "terr40Reserves", default: 0
-    t.integer "terr41Reserves", default: 0
-    t.integer "terr42Reserves", default: 0
-    t.integer "terr43Reserves", default: 0
-    t.integer "terr44Reserves", default: 0
-    t.integer "terr45Reserves", default: 0
-    t.integer "terr46Reserves", default: 0
-    t.integer "terr47Reserves", default: 0
-    t.integer "terr48Reserves", default: 0
-    t.integer "terr49Reserves", default: 0
-    t.integer "terr50Reserves", default: 0
-    t.integer "terr51Reserves", default: 0
-    t.integer "terr52Reserves", default: 0
-    t.integer "terr53Reserves", default: 0
-    t.integer "terr54Reserves", default: 0
-    t.integer "terr55Reserves", default: 0
-    t.integer "terr56Reserves", default: 0
-    t.integer "terr57Reserves", default: 0
-    t.integer "terr58Reserves", default: 0
-    t.integer "terr59Reserves", default: 0
-    t.integer "terr60Reserves", default: 0
-    t.integer "terr61Reserves", default: 0
-    t.integer "terr62Reserves", default: 0
-    t.integer "terr63Reserves", default: 0
-    t.integer "terr64Reserves", default: 0
-    t.integer "terr65Reserves", default: 0
-    t.integer "terr66Reserves", default: 0
-    t.integer "terr67Reserves", default: 0
-    t.integer "terr68Reserves", default: 0
-    t.integer "terr69Reserves", default: 0
-    t.integer "terr70Reserves", default: 0
-    t.integer "terr71Reserves", default: 0
-    t.integer "terr72Reserves", default: 0
-    t.integer "terr73Reserves", default: 0
-    t.integer "terr74Reserves", default: 0
-    t.integer "terr75Reserves", default: 0
-    t.integer "terr76Reserves", default: 0
-    t.integer "terr77Reserves", default: 0
-    t.integer "terr78Reserves", default: 0
-    t.integer "terr79Reserves", default: 0
-    t.integer "terr80Reserves", default: 0
-    t.integer "terr81Reserves", default: 0
-    t.integer "terr82Reserves", default: 0
-    t.integer "terr83Reserves", default: 0
-    t.integer "terr84Reserves", default: 0
-    t.integer "terr85Reserves", default: 0
-    t.integer "terr86Reserves", default: 0
-    t.integer "terr87Reserves", default: 0
-    t.integer "terr88Reserves", default: 0
-    t.integer "terr89Reserves", default: 0
-    t.integer "terr90Reserves", default: 0
-  end
-
-  add_index "territory_reserves", ["game_id"], name: "index_territory_reserves_on_game_id"
+  add_index "territories", ["group"], name: "index_territories_on_group"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

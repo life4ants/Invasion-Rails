@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TerritoryOwnerTest < ActiveSupport::TestCase
+class GameTerritoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

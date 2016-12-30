@@ -1,8 +1,8 @@
 class Game < ActiveRecord::Base
 	has_many :players, dependent: :destroy
   has_many :users, through: :players
-  has_many :territory_owners, dependent: :destroy
-  has_many :territory_reserves, dependent: :destroy, class_name: "TerritoryReserve"
+  has_many :game_territories, dependent: :destroy
+  has_many :territories, through: :game_territories
   has_many :shuffled_cards, dependent: :destroy
 
   serialize :settings

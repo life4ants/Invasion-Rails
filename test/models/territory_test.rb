@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TerritoryBorderTest < ActiveSupport::TestCase
+class TerritoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
