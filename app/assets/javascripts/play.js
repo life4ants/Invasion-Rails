@@ -6,7 +6,7 @@ $(function(){
   });
 
   populate();
-  gon.watch('reserves', {interval: 500}, refreshReserves);
+  //gon.watch('reserves', {interval: 500}, refreshReserves);
 });
 
 function refreshReserves(data)
