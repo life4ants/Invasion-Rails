@@ -1,4 +1,4 @@
-class Game < ActiveRecord::Base
+class Game < ApplicationRecord
 	has_many :players, dependent: :destroy
   has_many :users, through: :players
   has_many :game_territories, dependent: :destroy

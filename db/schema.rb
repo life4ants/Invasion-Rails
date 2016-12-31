@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -20,11 +19,10 @@ ActiveRecord::Schema.define(version: 20161230184003) do
     t.integer  "troops",       default: 1
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["game_id"], name: "index_game_territories_on_game_id"
+    t.index ["player_id"], name: "index_game_territories_on_player_id"
+    t.index ["territory_id"], name: "index_game_territories_on_territory_id"
   end
-
-  add_index "game_territories", ["game_id"], name: "index_game_territories_on_game_id"
-  add_index "game_territories", ["player_id"], name: "index_game_territories_on_player_id"
-  add_index "game_territories", ["territory_id"], name: "index_game_territories_on_territory_id"
 
   create_table "games", force: :cascade do |t|
     t.string   "nick_name"
@@ -41,10 +39,9 @@ ActiveRecord::Schema.define(version: 20161230184003) do
     t.integer  "round",          default: 1
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.index ["active"], name: "index_games_on_active"
+    t.index ["current_player"], name: "index_games_on_current_player"
   end
-
-  add_index "games", ["active"], name: "index_games_on_active"
-  add_index "games", ["current_player"], name: "index_games_on_current_player"
 
   create_table "players", force: :cascade do |t|
     t.integer "game_id"
@@ -58,11 +55,10 @@ ActiveRecord::Schema.define(version: 20161230184003) do
     t.boolean "getsACard",         default: false
     t.boolean "mustTurnInCards",   default: false
     t.integer "icon"
+    t.index ["active"], name: "index_players_on_active"
+    t.index ["game_id"], name: "index_players_on_game_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
-
-  add_index "players", ["active"], name: "index_players_on_active"
-  add_index "players", ["game_id"], name: "index_players_on_game_id"
-  add_index "players", ["user_id"], name: "index_players_on_user_id"
 
   create_table "shuffled_cards", force: :cascade do |t|
     t.integer "game_id"
@@ -158,9 +154,8 @@ ActiveRecord::Schema.define(version: 20161230184003) do
     t.integer "card90"
     t.integer "card91"
     t.integer "card92"
+    t.index ["game_id"], name: "index_shuffled_cards_on_game_id"
   end
-
-  add_index "shuffled_cards", ["game_id"], name: "index_shuffled_cards_on_game_id"
 
   create_table "sorted_cards", force: :cascade do |t|
     t.string  "name"
@@ -172,9 +167,8 @@ ActiveRecord::Schema.define(version: 20161230184003) do
     t.string "name"
     t.string "group"
     t.text   "borders"
+    t.index ["group"], name: "index_territories_on_group"
   end
-
-  add_index "territories", ["group"], name: "index_territories_on_group"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

@@ -13,7 +13,7 @@ Prerequisites
 In order to run Invasion locally, you will need to have a few things installed first.
 
 * ruby 2.3.1
-* rails 4.2.2
+* rails 5.0.0
 
 Setup
 -----
