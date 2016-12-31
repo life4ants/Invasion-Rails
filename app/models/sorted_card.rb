@@ -1,2 +1,2 @@
-class SortedCard < ActiveRecord::Base
+class SortedCard < ApplicationRecord
 end
