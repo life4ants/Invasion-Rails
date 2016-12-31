@@ -15,5 +15,4 @@
 //= require bootstrap
 //= require turbolinks
 //= require resize
-//= require pusher
 //= require shapes

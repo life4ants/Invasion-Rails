@@ -12,15 +12,13 @@ class GamesController < ApplicationController
     @players = @game.players.includes(:user)
   end
 
-  def create
+  def create    #TODO: error handling if game saves but player doesn't
     @user = current_user
     @game = Game.new(game_params)
     time = Time.now.to_formatted_s(:number)
     @game.nick_name = "#{@user.name}#{time}" if @game.nick_name.empty?
     if @game.save
       @game.update(random_select: true, wins_tie: false, num_of_cards: 15)
-      @game.territory_owners.create!
-      @game.territory_reserves.create!
       @game.players.create!(user_id: @user.id, admin: true, icon: params[:game][:player][:icon])
       flash[:info] = "Game created sucessfully."
       redirect_to games_url

@@ -8,14 +8,4 @@ class Player < ActiveRecord::Base
 	validates :user_id, presence: true
   validates :game_id, presence: true
   validates :icon, presence: true
-
-
-  def territories
-    owners = self.game.territory_owners.first
-    count = 0
-    (1..90).each do |n|
-      count += 1 if owners["terr#{n}Owner"] == self.id
-    end
-    count
-  end
 end

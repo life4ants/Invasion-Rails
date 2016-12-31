@@ -19,12 +19,6 @@
   <%end%>
   </ul>
   <strong>Active | </strong><%= @game.active %><br>
-  <% if @game.territory_owners.count == 1 %>
-  Territory Owners assigned<br>
-  <%end%>
-  <% if @game.territory_reserves.count == 1 %>
-  Territory Reserves assigned<br>
-  <%end%>
   <% if @game.random_select %>
   territories randomly selected<br>
   <% else %>

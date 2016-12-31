@@ -15,7 +15,6 @@ class PlayersController < ApplicationController
       return redirect_to game_url(id: @game.id)
     end
     @player = @user.players.new(game_id: @game.id, icon: params[:player][:icon])
-    #logger.debug("icon: #{params[:player[:icon]]}")
     if @player.save
       if players_met?(@game)
         @game.active = true
