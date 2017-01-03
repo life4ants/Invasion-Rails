@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',        '5.0.0'
+gem 'rails',        '5.0.1'
 gem 'bcrypt',        '3.1.7'
 gem 'faker',          '1.4.2'
 gem 'carrierwave',             '0.10.0'
@@ -27,6 +27,7 @@ group :development, :test do
   gem 'byebug',      '3.4.0'
   gem 'bullet', '~> 5.4', '>= 5.4.3'
   gem 'spring',      '2.0.0'
+  gem 'puma',    '~> 3.0'
 end
 
 group :test do

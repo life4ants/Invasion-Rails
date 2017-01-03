@@ -14,5 +14,18 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require turbolinks
+//= require cable
 //= require resize
 //= require shapes
+//= require_tree ./channels
+
+function post(data, user)
+{
+   $.ajax({
+      type: "POST",
+      url: "/games/mess",
+      data: {message: data, user: user},
+      dataType: "text"
+
+      });
+}
