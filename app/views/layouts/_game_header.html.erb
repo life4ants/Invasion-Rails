@@ -11,7 +11,7 @@
 	  <div  id='infoBox'>
 	  	Player: <%= icon_for(@current_player) %>
 	  	<%= @current_player.user.name %><br>
-	  	Territories: <%= @current_player.territories %><br>
+	  	Territories: <%= @current_player.territories.count %><br>
 	  	Reserves: 0<br>
 	  	<div id='message'></div>
 	  </div>

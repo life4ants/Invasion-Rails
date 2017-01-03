@@ -51,26 +51,29 @@ class GamesController < ApplicationController
 
   def play
     @game = Game.find(params[:id])
-    @owners = @game.territory_owners.first
-    @reserves = @game.territory_reserves.first
-    @current_player = current_player(@game)
+    @current_player = Player.find(@game.current_player)
     players = @game.player_ids
     players_array = {}
     players.each do |n|
       players_array[n] = Player.find(n).icon
     end
-    gon.watch.push(
+    gon.push(
     user: @current_user.attributes.slice("id", "name"),
-    owners: @owners,
-    reserves: @reserves,
+    owners: @game.game_territories.map(&:player_id),
+    troops: @game.game_territories.map(&:troops),
     game: @game.id,
-    players: players_array)
+    player_icons: players_array,
+    game_phase: @game.phase,
+    active_player: @current_player,
+    current_player: @current_user.players.find_by(game_id: @game.id))
   end
 
   def mess
     data = params[:message]
-    Pusher.trigger('notifications', 'all', { message: data })
-    render nothing: true, status: :ok
+    user = User.find(params[:user])
+    message = "#{user.name}, you have a message: #{data}"
+    ActionCable.server.broadcast "notifications_channel_#{user.id}", content: message
+    head :ok
   end
 
   def increment_reserves()
@@ -80,7 +83,7 @@ class GamesController < ApplicationController
     value = reserves[:"terr#{index}Reserves"]
     reserves.update("terr#{index}Reserves": value + 1)
     gon.watch.reserves = reserves
-    render nothing: true, status: :ok
+    head :ok
   end
 
   private
@@ -105,10 +108,5 @@ class GamesController < ApplicationController
       flash[:danger] = "This game is not active!"
       redirect_to root_path
     end
-  end
-
-  def current_player(game)
-    players = game.player_ids
-    Player.find(players[game.turn_index])
   end
 end

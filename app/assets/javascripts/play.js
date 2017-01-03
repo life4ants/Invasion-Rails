@@ -17,8 +17,8 @@ function refreshReserves(data)
 
 function terri_owner(index)
 {
-  var player = gon.owners["terr"+index+"Owner"];
-  var icon = gon.players[player];
+  var player = gon.owners[index-1];
+  var icon = gon.player_icons[player];
   return insertShape(icon);
 }
 function populate()
@@ -26,7 +26,7 @@ function populate()
   for (var i=1; i<91; i++)
   {
     document.getElementById("icon"+i).innerHTML = terri_owner(i);
-    document.getElementById("label"+i).innerHTML = gon.reserves["terr"+i+"Reserves"];
+    document.getElementById("label"+i).innerHTML = gon.troops[i-1];
   }
 }
 // initialized variables:
@@ -41,7 +41,14 @@ var odd = false;
 // functions:
 function clicker(index)
 {
-  tool1(index);
+  if (gon.current_player.id === gon.owners[index-1])
+    {
+      incrementReserves(index);
+    }
+  else {
+    alert("that territory does not belong to you!");
+  }
+  //tool1(index);
   /*
     if (selectedCountry[0]){
       deselect(selectedCountry[0]);
@@ -69,8 +76,9 @@ function deselect(country)
 
 function incrementReserves(index)
 {
-  value = gon.reserves["terr"+index+"Reserves"]
-  $('#label'+index).html(value+1);
+  gon.troops[index-1]++;
+
+  $('#label'+index).html(gon.troops[index-1]);
 }
 
 function endTurn()
