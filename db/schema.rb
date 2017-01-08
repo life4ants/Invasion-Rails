@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161230184003) do
+ActiveRecord::Schema.define(version: 20170104153416) do
 
   create_table "game_territories", force: :cascade do |t|
     t.integer  "game_id"
@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20161230184003) do
   create_table "games", force: :cascade do |t|
     t.string   "nick_name"
     t.integer  "num_of_players"
-    t.integer  "current_player"
     t.boolean  "random_select"
     t.boolean  "wins_tie"
     t.integer  "num_of_cards"
@@ -39,8 +38,9 @@ ActiveRecord::Schema.define(version: 20161230184003) do
     t.integer  "round",          default: 1
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.text     "players_order"
+    t.integer  "turn_index"
     t.index ["active"], name: "index_games_on_active"
-    t.index ["current_player"], name: "index_games_on_current_player"
   end
 
   create_table "players", force: :cascade do |t|

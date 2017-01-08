@@ -1,6 +1,30 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@mixin fa_toggle_left {
+  content: '\f191';
+}
+@mixin fa_toggle_right {
+  content: '\f152';
+}
+
+#sidebar::before {
+  @include fa_toggle_right;
+}
+#sidebar.toggled::before {
+  @include fa_toggle_left;
+}
+
+@media(min-width:768px) {
+
+#sidebar::before {
+  @include fa_toggle_left;
+}
+#sidebar.toggled::before {
+  @include fa_toggle_right;
+}
+
+}
 
 @mixin box_sizing {
   -moz-box-sizing:    border-box;

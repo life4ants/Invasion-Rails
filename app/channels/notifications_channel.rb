@@ -8,11 +8,4 @@ class NotificationsChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
-
-  def user
-  end
-
-  def player(message)
-    ActionCable.server.broadcast 'notifications_channel', content: message
-  end
 end

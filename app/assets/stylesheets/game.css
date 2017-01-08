@@ -1,16 +1,11 @@
-.overlay, .T-label {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-     user-select: none; }
-
+/* header styles: */
 .game-header
 {
     background-color: #18B84A;
     min-height: 85px;
 }
 .green { background-color: #18B84A; }
+.border { border: solid; }
 .header_link a { color: black; }
 
 button.btn-secondary:hover {
@@ -27,11 +22,6 @@ button.btn-secondary {
     margin-top: 5px;
 }
 
-#diceBox
-{
-    margin: 5px 0px 0px 5px;
-    float: left;
-}
 
 #infoBox
 {
@@ -41,22 +31,22 @@ button.btn-secondary {
     float: left;
     border: solid;
 }
-#message{
-    min-height: 20px;
-}
-.border
-{
-	border: solid;
-}
+
 .number-box
 {
     width: 75px;
 }
-
+.fa-2_5x
+{
+    font-size: 2.5em;
+}
 
 nav a {
 	color: white;
 }
+
+/* game map area: */
+
 #gameview
 {
 	position: absolute;
@@ -74,23 +64,12 @@ nav a {
     background-color: #222;
     margin-left: -15px;
 }
-.circle-img
-{
-    border: 2px solid;
-    border-radius: 50%;
-}
-.color1
-{
-    border-color: blue;
-}
-.color4
-{
-    border-color: orange;
-}
-.color5
-{
-    border-color: red;
-}
+.overlay, .T-label {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+     user-select: none; }
 .T-label
 {
     position: absolute;

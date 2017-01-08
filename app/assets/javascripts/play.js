@@ -41,7 +41,7 @@ var odd = false;
 // functions:
 function clicker(index)
 {
-  if (gon.current_player.id === gon.owners[index-1])
+  if (gon.user_player.id === gon.owners[index-1])
     {
       incrementReserves(index);
     }

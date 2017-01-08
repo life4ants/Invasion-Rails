@@ -2,36 +2,56 @@
 <%= provide(:title, "Playing Game #{@game.id}") %>
 <div id="wrapper">
 
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-    		<div id='diceBox'>
-			  	<%= image_tag("dice_red6.png", alt: "dice") %>
-			  	<%= image_tag("dice_red5.png", alt: "dice") %>
-			  	<%= image_tag("dice_red4.png", alt: "dice") %>
-			  	<%= image_tag("dice_white3.png", alt: "dice") %>
-			  	<%= image_tag("dice_white2.png", alt: "dice") %>
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+		<div id='diceBox'>
+	  	<%= image_tag("dice_red6.png", alt: "dice") %>
+	  	<%= image_tag("dice_red5.png", alt: "dice") %>
+	  	<%= image_tag("dice_red4.png", alt: "dice") %><br>
+	  	<%= image_tag("dice_white3.png", alt: "dice") %>
+	  	<%= image_tag("dice_white2.png", alt: "dice") %>
+	  </div>
+			  <input id="messages-tab" type="radio" name="tabs" checked>
+			  <label for="messages-tab" style="margin-left: 15px">Messages</label>
+			  <input id="tools-tab" type="radio" name="tabs">
+			  <label for="tools-tab">Tools</label>
+	  <section id="messages-section">
+		  <ul id='messages' class='sidebar-messages'>
+		  	<li>
+		  	8:50 PM:
+		  	It is your turn!
+		  	</li>
+		  	<li>
+		  	8:51 PM:
+		  	Don't beat me!
+		  	</li>
+		  </ul>
+	  </section>
+
+	  <section id="tools-section">
+	    <button class='btn btn-primary'>
+	      button 1
+	    </button>
+	  </section>
+	</div>
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+      <div class="map_wrapper">
+				<%= svg('game_map') %>
+			  <div id='gameview'>
+			  <%= image_tag("game_map_overlay.png", class: 'overlay') %>
+			    <% (1..90).each do |n| %>
+			    <div class="countrybox" id='territory<%=n%>'>
+			    	<div class='icon' id='icon<%=n%>'>
+			      </div>
+			      <div id='label<%=n%>' class='T-label'>
+			      </div>
+			    </div>
+			    <%end%>
 			  </div>
-
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-        <div class="map_wrapper">
-					<%= svg('game_map') %>
-				  <div id='gameview'>
-				  <%= image_tag("game_map_overlay.png", class: 'overlay') %>
-				    <% (1..90).each do |n| %>
-				    <div class="countrybox" id='territory<%=n%>'>
-				    	<div class='icon' id='icon<%=n%>'>
-				      </div>
-				      <div id='label<%=n%>' class='T-label'>
-				      </div>
-				    </div>
-				    <%end%>
-				  </div>
-				</div>
-    </div>
+			</div>
+  </div>
         <!-- /#page-content-wrapper -->
 </div>
 
@@ -39,6 +59,6 @@
 	$("#sidebar").click(function(e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
-    $(this).html() == "Show Sidebar" ? $(this).html("Hide Sidebar") : $(this).html("Show Sidebar");
+    $(this).toggleClass("toggled");
   });
 </script>

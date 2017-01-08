@@ -51,7 +51,7 @@ class GamesController < ApplicationController
 
   def play
     @game = Game.find(params[:id])
-    @current_player = Player.find(@game.current_player)
+    @current_player = current_player(@game)
     players = @game.player_ids
     players_array = {}
     players.each do |n|
@@ -64,8 +64,8 @@ class GamesController < ApplicationController
     game: @game.id,
     player_icons: players_array,
     game_phase: @game.phase,
-    active_player: @current_player,
-    current_player: @current_user.players.find_by(game_id: @game.id))
+    current_player: @current_player,
+    user_player: @current_user.players.find_by(game_id: @game.id))
   end
 
   def mess
@@ -108,5 +108,9 @@ class GamesController < ApplicationController
       flash[:danger] = "This game is not active!"
       redirect_to root_path
     end
+  end
+
+  def current_player(game)
+    Player.find(game.players_order[game.turn_index])
   end
 end
