@@ -2,7 +2,6 @@
 .game-header
 {
     background-color: #18B84A;
-    min-height: 85px;
 }
 .green { background-color: #18B84A; }
 .border { border: solid; }
@@ -15,11 +14,10 @@ button.btn-secondary {
    margin: 2px;
    font-weight: bold;
 }
-#left-nav
+.left-nav
 {
-    width: 140px;
     float: left;
-    margin-top: 5px;
+    padding: 15px 5px;
 }
 
 

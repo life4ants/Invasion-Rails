@@ -6,6 +6,7 @@ $(function(){
   });
 
   populate();
+  scrollBottom();
   //gon.watch('reserves', {interval: 500}, refreshReserves);
 });
 
@@ -127,5 +128,61 @@ function fun(n)
     deselect(n-1);
     alert("all done!");
   }
+}
+
+function showMessage(message)
+{
+  var full_message = "<strong>"+message.sender+"</strong>"+" says:"+"<br>"+message.content;
+  showSidebar();
+  if (!$("collapseTwo").hasClass('in'))
+        $("#messages-panel a").click();
+  bounceMessage('messages', 'mess'+message.id, full_message, 'times3', 3500);
+}
+
+function showInfos(messages)
+{
+  $("#alerts").html('');
+  if (!$("collapseThree").hasClass('in'))
+        $("#alerts-panel a").click();
+  showSidebar();
+  loopOverMessages(0, messages);
+}
+function loopOverMessages(n, messages)
+{
+  bounceMessage('alerts', 'alert'+n, messages[n], "", 1500);
+  if (n < messages.length-1)
+    setTimeout(function(){ loopOverMessages(n+1, messages);}, 1000);
+}
+
+function bounceMessage(type, id, full_message, count, delay)
+{
+  var node = document.createElement("li");
+  node.id = id;
+  document.getElementById(type).appendChild(node);
+
+  $("#"+node.id).css({"border": "5px solid red", "padding": "0px",
+  "transition": "none"});
+  $("#"+node.id).addClass("border-fade animated bounce "+count);
+  $("#"+node.id).html(full_message);
+  scrollBottom();
+
+  setTimeout(function(){
+  $("#"+node.id).css({"border": "1px solid",
+  "padding": "4px",
+  "transition": "border 500ms ease-out, padding 500ms ease-out"}) ;
+    $("#"+node.id).removeClass("animated bounce"+count);
+  }, delay);
+}
+
+function scrollBottom()
+{
+  $('.sidebar-messages').scrollTop($('.sidebar-messages')[$(".sidebar-messages").length-1].scrollHeight)
+}
+
+function showSidebar()
+{
+  var toggled = $("#wrapper").hasClass("toggled");
+  if (toggled && !mobile || !toggled && mobile)
+    $("#sidebar").click();
 }
 

@@ -1,17 +1,15 @@
 <header class="navbar navbar-fixed-top game-header">
   <div class="container-fluid">
-    <div id="left-nav">
-      <div id='menuBox'>
+    <div class='left-nav'>
+  <i class="fa" id='sidebar' aria-hidden="true" style='font-size: 2.5em'></i>
+  </div>
+    <div class="left-nav">
       <button class="btn btn-secondary btn-sm" id='endTurn' onclick="endTurn()"><strong>End Turn</strong></button>
-      <button class="btn btn-secondary btn-sm"  onclick="tool1(3)"><strong>tool 1</strong></button>
-      <i class="fa" id='sidebar' aria-hidden="true" style='font-size: 2.5em'></i>
-      </div>
     </div>
-    <div  id='infoBox'>
-      Player: <%= icon_for(@current_player) %>
-      <%= @current_player.user.name %><br>
-      Territories: <%= @current_player.territories.count %><br>
-      Reserves: 0
+    <div  class='left-nav'>
+      Current Player: <%= icon_for(@current_player) %>
+      <%= @current_player.user.name %>
+      Current Game: <%= @game.nick_name %>
     </div>
 
     <div class="navbar-default green" role='navigation'>
@@ -26,25 +24,21 @@
       </div>
       <div class="collapse navbar-collapse" id='collapse'>
         <ul class="header_link nav navbar-nav pull-right">
-          <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Help", help_path %></li>
-          <li><%= link_to "Games", games_path %></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <%= gravatar_for current_user, size: 30 %>
               <%= current_user.name %> <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Profile", current_user %></li>
-              <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+              <li><%= link_to "Games", games_path %></li>
+              <li><%= link_to "Help", help_path %></li>
               <li class="divider"></li>
               <li>
-                <%= link_to "Log out", logout_path, method: "delete" %>
+                <%= link_to "Exit Game", root_path %>
               </li>
             </ul>
           </li>
         </ul>
       </div>
-
   </div>
 </header>

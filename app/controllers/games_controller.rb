@@ -57,22 +57,24 @@ class GamesController < ApplicationController
     players.each do |n|
       players_array[n] = Player.find(n).icon
     end
+    @messages = @game.messages
     gon.push(
-    user: @current_user.attributes.slice("id", "name"),
-    owners: @game.game_territories.map(&:player_id),
-    troops: @game.game_territories.map(&:troops),
-    game: @game.id,
-    player_icons: players_array,
-    game_phase: @game.phase,
-    current_player: @current_player,
-    user_player: @current_user.players.find_by(game_id: @game.id))
+      user: @current_user.attributes.slice("id", "name"),
+      owners: @game.game_territories.map(&:player_id),
+      troops: @game.game_territories.map(&:troops),
+      game: @game.id,
+      player_icons: players_array,
+      game_phase: @game.phase,
+      current_player: @current_player,
+      user_player: @current_user.players.find_by(game_id: @game.id))
+    gon
   end
 
   def mess
     data = params[:message]
     user = User.find(params[:user])
-    message = "#{user.name}, you have a message: #{data}"
-    ActionCable.server.broadcast "notifications_channel_#{user.id}", content: message
+    Message.create(game_id: 1, sender: user.name, content: data)
+    #ActionCable.server.broadcast "notifications_channel", content: data
     head :ok
   end
 

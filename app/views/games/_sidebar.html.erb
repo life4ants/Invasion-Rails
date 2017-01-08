@@ -1,0 +1,73 @@
+<div class="panel-group" id="accordion">
+
+  <!-- Tools panel -->
+  <div id="tools-panel" class="panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Tools
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body" style='border: none'>
+        <div id='diceBox'>
+          <%= image_tag("dice_red6.png", alt: "dice") %>
+          <%= image_tag("dice_red5.png", alt: "dice") %>
+          <%= image_tag("dice_red4.png", alt: "dice") %><br>
+          <%= image_tag("dice_white3.png", alt: "dice") %>
+          <%= image_tag("dice_white2.png", alt: "dice") %>
+        </div>
+        tools buttons here
+      </div>
+    </div>
+  </div>
+
+  <!-- messages panel -->
+  <div id='messages-panel' class="panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+         Messages
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+        <ul id='messages' class='sidebar-messages'>
+          <%= render @messages %>
+        </ul>
+    </div>
+  </div>
+
+  <!-- alerts panel -->
+  <div id='alerts-panel' class="panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+          Alerts
+        </a>
+      </h4>
+
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+      <ul id='alerts' class='sidebar-messages'>
+      </ul>
+    </div>
+  </div>
+
+  <!-- players panel -->
+  <div id='players-panel' class="panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+          Players
+        </a>
+      </h4>
+
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse">
+      <ul id='players' class='sidebar-messages'>
+      </ul>
+    </div>
+  </div>
+</div>

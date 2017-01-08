@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104153416) do
+ActiveRecord::Schema.define(version: 20170108011939) do
 
   create_table "game_territories", force: :cascade do |t|
     t.integer  "game_id"
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(version: 20170104153416) do
     t.text     "players_order"
     t.integer  "turn_index"
     t.index ["active"], name: "index_games_on_active"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "game_id"
+    t.text     "content"
+    t.string   "sender"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_messages_on_game_id"
   end
 
   create_table "players", force: :cascade do |t|

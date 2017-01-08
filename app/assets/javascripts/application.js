@@ -29,39 +29,3 @@ function post(data, user)
 
       });
 }
-
-function adsf(message, count, num)
-{
-  sidebar();
-  if (!$("#messages-tab").is(":checked"))
-    $("#messages-tab").prop("checked", 'checked')
-  var node = document.createElement("li");
-  node.id = 'mess'+ num;
-  document.getElementById("messages").appendChild(node);
-
-  $("#"+node.id).css({"border": "5px solid red", "padding": "0px",
-  "transition": "none"});
-  $("#"+node.id).addClass("border-fade animated bounce "+count);
-  $("#"+node.id).html(message);
-  scrollBottom();
-
-  setTimeout(function(){
-  $("#"+node.id).css({"border": "1px solid",
-  "padding": "4px",
-  "transition": "border 500ms ease-out, padding 500ms ease-out"}) ;
-    $("#"+node.id).removeClass("animated bounce "+count);
-  }, 4000);
-}
-
-function scrollBottom()
-{
-  $('.sidebar-messages').scrollTop($('.sidebar-messages')[$(".sidebar-messages").length-1].scrollHeight)
-}
-
-function sidebar()
-{
-  var toggled = $("#wrapper").hasClass("toggled");
-  if (toggled && !mobile || !toggled && mobile)
-    $("#sidebar").click();
-}
-

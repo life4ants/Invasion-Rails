@@ -4,6 +4,7 @@ class Game < ApplicationRecord
   has_many :game_territories, dependent: :destroy
   has_many :territories, through: :game_territories
   has_many :shuffled_cards, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   serialize :players_order
 

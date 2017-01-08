@@ -4,35 +4,7 @@
 
   <!-- Sidebar -->
   <div id="sidebar-wrapper">
-		<div id='diceBox'>
-	  	<%= image_tag("dice_red6.png", alt: "dice") %>
-	  	<%= image_tag("dice_red5.png", alt: "dice") %>
-	  	<%= image_tag("dice_red4.png", alt: "dice") %><br>
-	  	<%= image_tag("dice_white3.png", alt: "dice") %>
-	  	<%= image_tag("dice_white2.png", alt: "dice") %>
-	  </div>
-			  <input id="messages-tab" type="radio" name="tabs" checked>
-			  <label for="messages-tab" style="margin-left: 15px">Messages</label>
-			  <input id="tools-tab" type="radio" name="tabs">
-			  <label for="tools-tab">Tools</label>
-	  <section id="messages-section">
-		  <ul id='messages' class='sidebar-messages'>
-		  	<li>
-		  	8:50 PM:
-		  	It is your turn!
-		  	</li>
-		  	<li>
-		  	8:51 PM:
-		  	Don't beat me!
-		  	</li>
-		  </ul>
-	  </section>
-
-	  <section id="tools-section">
-	    <button class='btn btn-primary'>
-	      button 1
-	    </button>
-	  </section>
+  	<%=render "sidebar" %>
 	</div>
 
   <!-- Page Content -->
@@ -52,7 +24,6 @@
 			  </div>
 			</div>
   </div>
-        <!-- /#page-content-wrapper -->
 </div>
 
 <script type="text/javascript">

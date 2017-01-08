@@ -1,11 +1,10 @@
 /* My custom syles: */
 .sidebar-messages
 {
-    padding: 5px;
-    margin-top: 10px;
+    padding: 10px;
     list-style: none;
     overflow: scroll;
-    height: 200px;
+    height: 400px;
 
 }
 .sidebar-messages li
@@ -20,36 +19,25 @@
 {
     margin: 5px 0px 0px 5px;\
 }
-#sidebar-wrapper section {
-  display: none;
-  padding: 20px 0 0;
-  border-top: 2px solid #333;
-}
-#sidebar-wrapper input {
-  display: none;
-}
-
-#sidebar-wrapper label {
-  display: inline-block;
-  margin: 10px 0 -2px;
-  padding: 5px 15px;
-  font-weight: 600;
-  text-align: center;
-  color: #555;
-  border: 2px solid transparent;
-}
-
-#sidebar-wrapper input:checked + label {
-  color: #000;
-  border: 1px solid #333;
-  border-top: 2px solid yellow;
-  border-bottom: 2px solid #18B84A;
-}
-
-#messages-tab:checked ~ #messages-section,
-#tools-tab:checked ~ #tools-section
+.panel
 {
-  display: block;
+    background-color: #18B84A;
+    border: none;
+}
+.panel-heading
+{
+    background-color: #bbb;
+    border-radius: 8px;
+    margin: 0 5px 0;
+}
+.panel-body
+{
+    height: 400px;
+    padding: 5px;
+}
+.panel-group
+{
+    margin-top: 10px;
 }
 
 /*!
