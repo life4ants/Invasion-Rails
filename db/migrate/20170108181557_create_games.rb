@@ -3,7 +3,7 @@ class CreateGames < ActiveRecord::Migration
     create_table :games do |t|
       t.string    :nick_name
       t.integer   :num_of_players
-    	t.integer		:current_player
+    	t.integer		:turn_index
     	t.boolean		:random_select
       t.boolean   :wins_tie
       t.integer   :num_of_cards
