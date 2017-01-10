@@ -3,6 +3,8 @@ class GamesController < ApplicationController
   before_action :admin_player, only: [:destroy, :edit, :update]
   before_action :game_active, only: [:play]
 
+  include GameCode
+
   def new
     @game = Game.new(num_of_players: 3)
   end
@@ -51,23 +53,10 @@ class GamesController < ApplicationController
 
   def play
     @game = Game.find(params[:id])
+    gon = fetch_game_data(@game)
     @current_player = current_player(@game)
-    players = @game.player_ids
-    players_array = {}
-    players.each do |n|
-      players_array[n] = Player.find(n).icon
-    end
+    @players = @game.players.order(:turn_order)
     @messages = @game.messages
-    gon.push(
-      user: @current_user.attributes.slice("id", "name"),
-      owners: @game.game_territories.map(&:player_id),
-      troops: @game.game_territories.map(&:troops),
-      game: @game.id,
-      player_icons: players_array,
-      game_phase: @game.phase,
-      current_player: @current_player,
-      user_player: @current_user.players.find_by(game_id: @game.id))
-    gon
   end
 
   def mess
@@ -78,14 +67,27 @@ class GamesController < ApplicationController
     head :ok
   end
 
-  def increment_reserves()
-    game = Game.find(params[:game])
-    index = params[:index]
-    reserves = game.territory_reserves.first
-    value = reserves[:"terr#{index}Reserves"]
-    reserves.update("terr#{index}Reserves": value + 1)
-    gon.watch.reserves = reserves
-    head :ok
+  def refresh_data
+    territory_data = get_new_game_data(params)
+    render json: territory_data
+  end
+
+  def initial_troops
+    return_data = validate_initial_troops(params)
+    render json: return_data
+  end
+
+  def game_header
+    @game = Game.find(params[:id])
+    @current_player = current_player(@game)
+    render partial: 'layouts/game_header'
+  end
+
+  def sidebar
+    @game = Game.find(params[:id])
+    @players = @game.players.order(:turn_order)
+    @messages = @game.messages
+    render partial: 'games/sidebar'
   end
 
   private
@@ -113,6 +115,34 @@ class GamesController < ApplicationController
   end
 
   def current_player(game)
-    Player.find(game.players_order[game.turn_index])
+    game.players.find_by(turn_order: game.turn_index)
+  end
+
+  def fetch_game_data(game)
+    current_player = current_player(game)
+    players = game.players.order(:turn_order)
+    player_terr_counts = []
+    players.each do |player|
+      player_terr_counts.push(player.game_territories.count)
+    end
+    player_icons = {}
+    game.player_ids.each do |n|
+      player_icons[n] = Player.find(n).icon
+    end
+    owners = game.game_territories.map(&:player_id)
+    troops = game.game_territories.map(&:troops)
+    territory_data = {update_time: Time.now}
+    90.times do |n|
+      territory_data[n+1] = {owner: owners[n], troops: troops[n]}
+    end
+    gon.push(
+      user: @current_user.attributes.slice("id", "name"),
+      current_player: current_player,
+      user_player: @current_user.players.find_by(game_id: game.id),
+      game: game,
+      territory_data: territory_data,
+      player_icons: player_icons,
+      player_terr_counts: player_terr_counts)
+    gon
   end
 end

@@ -7,18 +7,13 @@ $(function(){
 
   populate();
   scrollBottom();
+  show_dependent_info()
   //gon.watch('reserves', {interval: 500}, refreshReserves);
 });
 
-function refreshReserves(data)
-{
-  gon.reserves = data;
-  populate();
-}
-
 function terri_owner(index)
 {
-  var player = gon.owners[index-1];
+  var player = gon.territory_data[index].owner;
   var icon = gon.player_icons[player];
   return insertShape(icon);
 }
@@ -27,35 +22,91 @@ function populate()
   for (var i=1; i<91; i++)
   {
     document.getElementById("icon"+i).innerHTML = terri_owner(i);
-    document.getElementById("label"+i).innerHTML = gon.troops[i-1];
+    document.getElementById("label"+i).innerHTML = gon.territory_data[i].troops;
   }
 }
+
+function scrollBottom()
+{
+  $('.sidebar-messages').scrollTop($('.sidebar-messages')[$(".sidebar-messages").length-1].scrollHeight)
+}
+
+function show_dependent_info()
+{
+  if (isMyTurn)
+  {
+    set_alerts();
+    show_info_box();
+    $("#my-turn").html("It's Your Turn!").removeAttr('style');
+  }
+  else
+  {
+
+  }
+}
+
+function set_alerts()
+{
+  if (gon.game.phase == "initialTroops")
+  {
+    var P = gon.current_player;
+    var messages =
+    [  gon.user.name + ", it is your turn to disribute initial troops.",
+    "You have "+P.reserves+" troops left to distribute.",
+    "You may distribute "+P.temp_reserves+" of those now."   ];
+    showAlerts(messages);
+  }
+  else if (gon.game.phase == "")
+  {
+
+  }
+}
+
+function show_info_box()
+{
+  if (gon.game.phase === "initialTroops")
+    {
+        output = "<div id='infoBox'>Territories: " +gon.player_terr_counts[gon.game.turn_index] + "<br>Reserves: " +
+         gon.current_player.temp_reserves + "<br>Total Reserves: " + gon.current_player.reserves+"</div>";
+    }
+    else
+    {
+        output = "<div id='infoBox'>Territories: " +gon.player_terr_counts[gon.game.turn_index] + "<br>Reserves: " +
+         gon.current_player.temp_reserves + "<br>Total Reserves: " + gon.current_player.reserves+ "<br>" + attackLine+"</div>";
+    }
+    document.getElementById("current-player").innerHTML = output;
+}
 // initialized variables:
-
-
-
 var selectedCountry = [];
 var odd = false;
+var isMyTurn = gon.user_player.id == gon.current_player.id;
+var attackLine = "";
+var CTD = {total: 0}; // Changed Territory Data
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////////
 // functions:
 function clicker(index)
 {
-  if (gon.user_player.id === gon.owners[index-1])
+  if (isMyTurn)
+  {
+    var _player = gon.user_player.id;
+    var _owner = gon.territory_data[index].owner;
+
+    if (gon.game.phase == "initialTroops")
     {
-      incrementReserves(index);
+      if (_player == _owner)
+      {
+        incrementReserves(index);
+      }
+      else {
+      alert("that territory does not belong to you!");
+      }
     }
-  else {
-    alert("that territory does not belong to you!");
+    else if (gon.game.phase == "distributeTroops")
+    {
+
+    }
   }
-  //tool1(index);
-  /*
-    if (selectedCountry[0]){
-      deselect(selectedCountry[0]);
-    }
-    selectedCountry[0] = index;
-    select(index); */
 }
 
 function select(country)
@@ -77,37 +128,59 @@ function deselect(country)
 
 function incrementReserves(index)
 {
-  gon.troops[index-1]++;
+  if (gon.game.phase == "initialTroops")
+  {
+    gon.current_player.temp_reserves--;
+    gon.current_player.reserves--;
+    gon.territory_data[index].troops++;
+    CTD[index] = CTD[index]+1 || 1;
+    CTD.total += 1;
 
-  $('#label'+index).html(gon.troops[index-1]);
+    $('#label'+index).html(gon.territory_data[index].troops);
+    show_info_box();
+    if (gon.current_player.temp_reserves <= 0)
+    {
+      end_turn();
+    }
+  }
+  else if (gon.game.phase == '')
+  {
+
+  }
 }
 
-function endTurn()
+function end_turn()
 {
-  var data = $("#message-input").val();
+  if (gon.game.phase == "initialTroops")
+  {
+    isMyTurn = false;
     $.ajax({
       type: "POST",
-      url: "/games/mess",
-      data: {message: data},
-      dataType: "text"
-
-      });
+      url: "/games/refresh",
+      data: {game: gon.game.id, chanTerrData: CTD},
+      dataType: "text",
+      success: function(result){
+        console.log(result);
+        var data = result;
+        if (data.success)
+        {
+          gon.current_player = data.current_player
+          $("header").load('/games/'+gon.game.id+'/game_header');
+          $("#sidebar-wrapper").load('/games/'+gon.game.id+'/sidebar');
+        }
+        else
+        {
+          alert("something went wrong. please refresh the page.");
+          console.log("initial troops failed to post");
+        }
+      }
+    });
+  }
 }
-function tool1(index)
-{
-  incrementReserves(index);
-  game = gon.game;
-    $.ajax({
-      type: "POST",
-      url: "/games/increment_reserves",
-      data: {game: game, index: index},
-      dataType: "text"
-      });
-}
 
-function turnInCards()
+function reset_territory_data()
 {
-  $("#message").html(gamePhase);
+  //for (var i=0; i<)
 }
 
 function fun(n)
@@ -139,7 +212,7 @@ function showMessage(message)
   bounceMessage('messages', 'mess'+message.id, full_message, 'times3', 3500);
 }
 
-function showInfos(messages)
+function showAlerts(messages)
 {
   $("#alerts").html('');
   if (!$("collapseThree").hasClass('in'))
@@ -149,9 +222,9 @@ function showInfos(messages)
 }
 function loopOverMessages(n, messages)
 {
-  bounceMessage('alerts', 'alert'+n, messages[n], "", 1500);
+  bounceMessage('alerts', 'alert'+n, messages[n], "", 2000);
   if (n < messages.length-1)
-    setTimeout(function(){ loopOverMessages(n+1, messages);}, 1000);
+    setTimeout(function(){ loopOverMessages(n+1, messages);}, 1500);
 }
 
 function bounceMessage(type, id, full_message, count, delay)
@@ -174,10 +247,6 @@ function bounceMessage(type, id, full_message, count, delay)
   }, delay);
 }
 
-function scrollBottom()
-{
-  $('.sidebar-messages').scrollTop($('.sidebar-messages')[$(".sidebar-messages").length-1].scrollHeight)
-}
 
 function showSidebar()
 {
@@ -186,3 +255,34 @@ function showSidebar()
     $("#sidebar").click();
 }
 
+function refresh()
+{
+  $.ajax({
+    type: "GET",
+    url: "/games/refresh",
+    data: {game: gon.game, time: gon.territory_data.update_time},
+    dataType: "text",
+    success: function(result){
+      var data = JSON.parse(result);
+      if (data.changed.length > 0)
+      {
+        gon.territory_data = Object.assign(gon.territory_data, data);
+        update_map(gon.territory_data.changed);
+      }
+    }
+  });
+}
+function update_map(ar)
+{
+  for (var i=0; i < ar.length; i++)
+  {
+      document.getElementById("icon"+ar[i]).innerHTML = terri_owner(ar[i]);
+      document.getElementById("label"+ar[i]).innerHTML = gon.territory_data[ar[i]].troops;
+      select(ar[i]);
+  }
+  setTimeout(function(){
+    for (var i=0; i<ar.length; i++){
+      deselect(ar[i]);
+    }
+  }, 1200);
+}

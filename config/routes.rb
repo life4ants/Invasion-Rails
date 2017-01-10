@@ -11,7 +11,10 @@ Rails.application.routes.draw do
 
   get    '/games/:id/play'          => 'games#play', as: :play
   post   '/games/mess'              => 'games#mess'
-  post   'games/increment_reserves' => 'games#increment_reserves'
+  get    'games/refresh'            => 'games#refresh_data'
+  post   'games/refresh'            => 'games#initial_troops'
+  get    'games/:id/game_header'    => 'games#game_header'
+  get    'games/:id/sidebar'        => 'games#sidebar'
 
   resources :players
   resources :games

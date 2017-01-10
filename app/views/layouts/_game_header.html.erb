@@ -1,16 +1,19 @@
-<header class="navbar navbar-fixed-top game-header">
+<nav class="navbar navbar-fixed-top game-header">
   <div class="container-fluid">
     <div class='left-nav'>
-  <i class="fa" id='sidebar' aria-hidden="true" style='font-size: 2.5em'></i>
-  </div>
-    <div class="left-nav">
+      <div id='my-turn' style='border: none'></div>
+      <i class="fa" id='sidebar' aria-hidden="true" style='font-size: 2.5em'></i>
       <button class="btn btn-secondary btn-sm" id='endTurn' onclick="endTurn()"><strong>End Turn</strong></button>
     </div>
-    <div  class='left-nav'>
-      Current Player: <%= icon_for(@current_player) %>
+    <ul class='players nav-center' id='current-player'>
+      <li>Current Player (<%=@game.turn_index%> of <%= @game.num_of_players %>)
+      <h4><%= icon_for(@current_player, 25) %>
       <%= @current_player.user.name %>
-      Current Game: <%= @game.nick_name %>
-    </div>
+      </h4></li>
+    </ul>
+    <ul class='players nav-center'>
+      <li>Current Game (round <%=@game.round%>)<h4><%= @game.nick_name %></h4></li>
+    </ul>
 
     <div class="navbar-default green" role='navigation'>
       <div class="navbar-header">
@@ -41,4 +44,4 @@
         </ul>
       </div>
   </div>
-</header>
+</nav>

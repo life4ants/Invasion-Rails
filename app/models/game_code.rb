@@ -4,12 +4,12 @@ module GameCode
     #shuffle cards
     if game.random_select
       owners = Array(90)
-      users = game.players_order
-      num = game.num_of_players -1
+      player_order = game.player_ids.shuffle.shuffle
+      num = game.num_of_players-1
       90.times do |n|
-        owners[n] = users[num]
+        owners[n] = player_order[num]
         num -= 1
-        num = game.num_of_players -1 if num < 0
+        num = game.num_of_players-1 if num < 0
       end
       owners.shuffle!.shuffle!
       territory_owners = Array(90)
@@ -20,32 +20,120 @@ module GameCode
     else
       #do selectable stuff
     end
-    assign_troops(game)
+    assign_players_and_troops(game, player_order)
     game.users.each do |user|
       ActionCable.server.broadcast 'notifications_channel_#{user.id}',
       content: "#{user.name}, the game #{game.nick_name} is now active and ready for you to start playing."
     end
   end
 
-  def assign_troops(game)
+  def assign_players_and_troops(game, player_order)
     case game.num_of_players
     when 3
-      game.players.update_all(reserves: 42, temp_reserves: 9)
+      n = 0
+      player_order.each do |player|
+        Player.find(player).update(reserves: 42, temp_reserves: 9, turn_order: n+1)
+        n += 1
+      end
     when 4
-      game.players.limit(2).update_all(reserves: 37, temp_reserves: 9)
-      game.players.offset(2).limit(2).update_all(reserves: 36, temp_reserves: 9)
+      troops = [37,37,36,36]
+      n = 0
+      player_order.each do |player|
+        Player.find(player).update(reserves: troops[n], temp_reserves: 9, turn_order: n+1)
+        n += 1
+      end
     when 5
-      game.players.update_all(reserves: 33, temp_reserves: 9)
+      n = 0
+      player_order.each do |player|
+        Player.find(player).update(reserves: 33, temp_reserves: 9, turn_order: n+1)
+        n += 1
+      end
     when 6
-      game.players.update_all(reserves: 30, temp_reserves: 8)
+      n = 0
+      player_order.each do |player|
+        Player.find(player).update(reserves: 30, temp_reserves: 8, turn_order: n+1)
+        n += 1
+      end
     when 7
-      game.players.first.update(reserves: 28, temp_reserves: 5)
-      game.players.offset(1).update_all(reserves: 27, temp_reserves: 5)
+      troops = [28, 27, 27, 27, 27, 27, 27]
+      n = 0
+      player_order.each do |player|
+        Player.find(player).update(reserves: troops[n], temp_reserves: 5, turn_order: n+1)
+        n += 1
+      end
     when 8
-      game.players.limit(6).update_all(reserves: 25, temp_reserves: 5)
-      game.players.offset(6).update_all(reserves: 24, temp_reserves: 5)
+      troops = [25, 25, 25, 25, 25, 25, 24, 24]
+      n = 0
+      player_order.each do |player|
+        Player.find(player).update(reserves: troops[n], temp_reserves: 5, turn_order: n+1)
+        n += 1
+      end
     else
       raise 'wrong number of players to assign troops to'
     end
   end
+
+  def get_new_game_data(params)
+    game = Game.find(params[:game])
+    time = params[:time]
+    return_data = {changed: []}
+    game.game_territories.each do |terr|
+      if (terr.updated_at > time)
+        return_data[terr.id] = {owner: terr.player_id, troops: terr.troops}
+        return_data[:changed].push(terr.id)
+      end
+    end
+    return_data[:update_time] = 1.second.ago
+    return_data
+  end
+  def validate_initial_troops(params)
+    game = Game.find(params[:game])
+    current_player = game.players.find_by(turn_order: game.turn_index)
+    chanTerrData = params[:chanTerrData]
+    total = 0
+    chanTerrData.each do |n|
+      total += n[1].to_i
+    end
+    if chanTerrData[:total] == current_player.temp_reserves && total = (chanTerrData[:total] * 2)
+      total = chanTerrData.delete(:total)
+      chanTerrData.each do |n|
+        terr = game.game_territories.find_by(territory_id: n[0].to_s.to_i)
+        terr.update(troops: terr.troops + n[1].to_i)
+      end
+      current_player.update(reserves: current_player.reserves - total)
+      assign_temp_reserves(current_player)
+      current_player = next_player(game)
+      return_data = {sucess: true, current_player: current_player}
+    else
+      raise current_player.temp_reserves
+      return_data = {sucess: false}
+    end
+  end
+
+  def assign_temp_reserves(player)
+    case player.reserves
+    when 33..50
+      player.update!(temp_reserves: 9)
+    when 30..32
+      player.update!(temp_reserves: 8)
+    when 9..29
+      player.update!(temp_reserves: 5)
+    when 3..8
+      player.update!(temp_reserves: 3)
+    when 1..2
+      player.update!(temp_reserves: 1)
+    end
+  end
+
+  def next_player(game)
+    turn_index = game.turn_index + 1
+    turn_index = 1 if turn_index > game.num_of_players
+    game.update!(turn_index: turn_index)
+    current_player = game.players.find_by(turn_order: game.turn_index)
+  end
+
 end
+
+
+
+

@@ -18,7 +18,8 @@
           <%= image_tag("dice_white3.png", alt: "dice") %>
           <%= image_tag("dice_white2.png", alt: "dice") %>
         </div>
-        tools buttons here
+        <div id='infoBox'>
+        </div>
       </div>
     </div>
   </div>
@@ -66,7 +67,8 @@
 
     </div>
     <div id="collapseFour" class="panel-collapse collapse">
-      <ul id='players' class='sidebar-messages'>
+      <ul id='players' class='players players-list'>
+      <%= render @players %>
       </ul>
     </div>
   </div>

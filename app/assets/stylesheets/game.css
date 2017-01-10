@@ -17,28 +17,43 @@ button.btn-secondary {
 .left-nav
 {
     float: left;
-    padding: 15px 5px;
+    padding: 5px;
 }
-
-
+.nav-center
+{
+    float: left;
+    width: 30%;
+    padding: 5px 15px;
+    margin: 0px;
+    text-align: center;
+    font-size: 0.9em;
+}
+.nav-center h4
+{
+    font-size: 21px;
+    margin-top: 5px;
+}
 #infoBox
 {
     font-weight: bold;
-    margin: 5px 10px 5px 10px;
     min-width: 170px;
     float: left;
-    border: solid;
 }
-
-.number-box
+#my-turn
 {
-    width: 75px;
+    margin-bottom: 5px;
+    color: darkred;
+    font-weight: bold;
+    border-top: double;
+    border-bottom: double;
+    width: 120px;
+    text-align: center;
 }
-.fa-2_5x
+#endTurn
 {
-    font-size: 2.5em;
+    margin-left: 15px;
+    position: absolute;
 }
-
 nav a {
 	color: white;
 }

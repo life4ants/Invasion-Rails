@@ -17,7 +17,7 @@ class PlayersController < ApplicationController
     @player = @user.players.new(game_id: @game.id, icon: params[:player][:icon])
     if @player.save
       if players_met?(@game)
-        @game.update!(active: true, player_order: @game.player_ids.shuffle, turn_index: 0)
+        @game.update!(active: true, turn_index: 1)
         start_game(@game)
       end
       flash[:success] = "Game joined sucessfully."

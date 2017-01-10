@@ -35,8 +35,8 @@ module GamesHelper
     svg_icon(icon, "svg#{territory}", 25)
   end
 
-  def icon_for(player)
-    svg_icon(player.icon, "player#{player.id}", 15)
+  def icon_for(player, size=15)
+    svg_icon(player.icon, "player#{player.id}", size)
   end
 
   def svg_icon(numcode, id, size) #returns the shape and color for a icon code
