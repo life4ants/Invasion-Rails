@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get    'message'  => 'static_pages#flash'
 
   get    '/games/:id/play'          => 'games#play', as: :play
-  post   '/games/mess'              => 'games#mess'
+  get    '/games/mess'              => 'games#mess'
   get    'games/refresh'            => 'games#refresh_data'
   post   'games/refresh'            => 'games#initial_troops'
   get    'games/:id/game_header'    => 'games#game_header'

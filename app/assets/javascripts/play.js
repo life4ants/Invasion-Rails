@@ -154,24 +154,26 @@ function end_turn()
   if (gon.game.phase == "initialTroops")
   {
     isMyTurn = false;
+    var object = {game: gon.game.id, player: gon.game.turn_index, data: CTD}
+    var json = JSON.stringify(object);
     $.ajax({
       type: "POST",
       url: "/games/refresh",
-      data: {game: gon.game.id, chanTerrData: CTD},
-      dataType: "text",
-      success: function(result){
-        console.log(result);
-        var data = result;
-        if (data.success)
+      data: {this: json},
+      dataType: "json",
+      success: function(result)
+      {
+        if (result.success)
         {
-          gon.current_player = data.current_player
+          gon.current_player = result.current_player
           $("header").load('/games/'+gon.game.id+'/game_header');
           $("#sidebar-wrapper").load('/games/'+gon.game.id+'/sidebar');
+          resize();
         }
         else
         {
+          console.log("update troops failed because: "+result.reason);
           alert("something went wrong. please refresh the page.");
-          console.log("initial troops failed to post");
         }
       }
     });
@@ -285,4 +287,16 @@ function update_map(ar)
       deselect(ar[i]);
     }
   }, 1200);
+}
+
+function mess()
+{
+  $.ajax({
+    type: "GET",
+    url: "/games/mess",
+    success: function(result){
+      console.log(result);
+      alert(result);
+    }
+  });
 }

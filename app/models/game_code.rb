@@ -86,28 +86,17 @@ module GameCode
     return_data[:update_time] = 1.second.ago
     return_data
   end
-  def validate_initial_troops(params)
-    game = Game.find(params[:game])
+
+  def update_troops(data, game, temp_reserves)
     current_player = game.players.find_by(turn_order: game.turn_index)
-    chanTerrData = params[:chanTerrData]
-    total = 0
-    chanTerrData.each do |n|
-      total += n[1].to_i
+    data.each do |n|
+      terr = game.game_territories.find_by(territory_id: n[0].to_i)
+      terr.update!(troops: terr.troops + n[1])
     end
-    if chanTerrData[:total] == current_player.temp_reserves && total = (chanTerrData[:total] * 2)
-      total = chanTerrData.delete(:total)
-      chanTerrData.each do |n|
-        terr = game.game_territories.find_by(territory_id: n[0].to_s.to_i)
-        terr.update(troops: terr.troops + n[1].to_i)
-      end
-      current_player.update(reserves: current_player.reserves - total)
-      assign_temp_reserves(current_player)
-      current_player = next_player(game)
-      return_data = {sucess: true, current_player: current_player}
-    else
-      raise current_player.temp_reserves
-      return_data = {sucess: false}
-    end
+    current_player.update!(reserves: current_player.reserves - temp_reserves)
+    assign_temp_reserves(current_player)
+    current_player = next_player(game)
+    return {success: true, current_player: current_player}
   end
 
   def assign_temp_reserves(player)
@@ -131,7 +120,6 @@ module GameCode
     game.update!(turn_index: turn_index)
     current_player = game.players.find_by(turn_order: game.turn_index)
   end
-
 end
 
 

@@ -59,12 +59,31 @@ class GamesController < ApplicationController
     @messages = @game.messages
   end
 
-  def mess
-    data = params[:message]
-    user = User.find(params[:user])
-    Message.create(game_id: 1, sender: user.name, content: data)
-    #ActionCable.server.broadcast "notifications_channel", content: data
-    head :ok
+  def initial_troops
+    pam = JSON.parse(params[:this])
+    game = Game.find(pam["game"])
+    if (pam["player"] == game.turn_index)
+      data = pam["data"]
+      player = current_player(game)
+      total = 0
+      data.each do |n|
+        total += n[1]
+      end
+      if total == player.temp_reserves*2
+        total = data.delete("total")
+        player_territories = game.game_territories.where(player_id: player.id).map(&:id)
+        if validate_territories(data, player_territories)
+          return_data = update_troops(data, game, total)
+          render json: return_data
+        else
+          render json: {success: false, reason: "territories don't match player"}
+        end
+      else
+        render json: {success: false, reason: "wrong number of troops assigned"}
+      end
+    else
+      render json: {success: false, reason: "wrong player"}
+    end
   end
 
   def refresh_data
@@ -72,8 +91,9 @@ class GamesController < ApplicationController
     render json: territory_data
   end
 
-  def initial_troops
-    return_data = validate_initial_troops(params)
+  def mess
+    player = Player.find(2)
+    return_data = {success: true, current_player: player}
     render json: return_data
   end
 
@@ -90,7 +110,7 @@ class GamesController < ApplicationController
     render partial: 'games/sidebar'
   end
 
-  private
+private
 
   def game_params
     params.require(:game).permit(:num_of_players,
@@ -144,5 +164,12 @@ class GamesController < ApplicationController
       player_icons: player_icons,
       player_terr_counts: player_terr_counts)
     gon
+  end
+
+  def validate_territories(test, array)
+    test.each do |n|
+      return false unless array.include?(n[0].to_i)
+    end
+    return true
   end
 end
