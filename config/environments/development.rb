@@ -66,6 +66,9 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  config.web_console.whitelisted_ips = '192.168.0.0/16'
+  config.log_level = :debug
+
   config.after_initialize do
     #Enable bullet in your application
     Bullet.enable = true
