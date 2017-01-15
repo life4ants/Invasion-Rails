@@ -10,4 +10,8 @@ class Game < ApplicationRecord
 
   validates :num_of_players, presence: true, numericality:
    												{ only_integer: true, less_than: 9, greater_than: 2 }
+
+  def current_player
+    self.players.find_by(turn_order: self.turn_index)
+  end
 end

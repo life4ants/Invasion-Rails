@@ -1,3 +1,5 @@
+//= require channels/game
+
 
 // on ready function:
 $(function(){
@@ -35,13 +37,16 @@ function show_dependent_info()
 {
   if (isMyTurn)
   {
-    set_alerts();
     show_info_box();
     $("#my-turn").html("It's Your Turn!").removeAttr('style');
+    alert(gon.user.name+", it is your turn.");
+    set_alerts();
   }
   else
   {
-
+    $("#alerts").html('');
+    $("#my-turn").html("").css('border', 'none');
+    show_info_box();
   }
 }
 
@@ -49,7 +54,7 @@ function set_alerts()
 {
   if (gon.game.phase == "initialTroops")
   {
-    var P = gon.current_player;
+    var P = gon.user_player;
     var messages =
     [  gon.user.name + ", it is your turn to disribute initial troops.",
     "You have "+P.reserves+" troops left to distribute.",
@@ -64,17 +69,27 @@ function set_alerts()
 
 function show_info_box()
 {
-  if (gon.game.phase === "initialTroops")
+  if (isMyTurn)
+  {
+    if (gon.game.phase === "initialTroops")
     {
-        output = "<div id='infoBox'>Territories: " +gon.player_terr_counts[gon.game.turn_index] + "<br>Reserves: " +
-         gon.current_player.temp_reserves + "<br>Total Reserves: " + gon.current_player.reserves+"</div>";
+      output = "<div id='infoBox'>Territories: " +gon.player_terr_counts[gon.game.turn_index-1] + "<br>Reserves: " +
+      gon.user_player.temp_reserves + "<br>Total Reserves: " + gon.user_player.reserves+"</div>";
     }
     else
     {
-        output = "<div id='infoBox'>Territories: " +gon.player_terr_counts[gon.game.turn_index] + "<br>Reserves: " +
-         gon.current_player.temp_reserves + "<br>Total Reserves: " + gon.current_player.reserves+ "<br>" + attackLine+"</div>";
+      output = "<div id='infoBox'>Territories: " +gon.player_terr_counts[gon.game.turn_index] + "<br>Reserves: " +
+      gon.user_player.temp_reserves + "<br>Total Reserves: " + gon.user_player.reserves+ "<br>" + attackLine+"</div>";
     }
-    document.getElementById("current-player").innerHTML = output;
+    $("#current-player").html(output);
+  }
+  else
+  {
+    icon = gon.player_icons[gon.current_player.id];
+    output = "<li>Current Player ("+gon.game.turn_index+" of "+gon.game.num_of_players+")<h4>"+insertShape(icon)+
+             gon.current_player.name+"</h4></li>";
+    $("#current-player").html(output);
+  }
 }
 // initialized variables:
 var selectedCountry = [];
@@ -121,7 +136,7 @@ function select(country)
 
 function deselect(country)
 {
-   var id = ".territory"+country;
+  var id = ".territory"+country;
   $(id).css("stroke-width", "0");
   $("#svg"+country).css("background-color", "transparent");
 }
@@ -130,15 +145,15 @@ function incrementReserves(index)
 {
   if (gon.game.phase == "initialTroops")
   {
-    gon.current_player.temp_reserves--;
-    gon.current_player.reserves--;
+    gon.user_player.temp_reserves--;
+    gon.user_player.reserves--;
     gon.territory_data[index].troops++;
     CTD[index] = CTD[index]+1 || 1;
     CTD.total += 1;
 
     $('#label'+index).html(gon.territory_data[index].troops);
     show_info_box();
-    if (gon.current_player.temp_reserves <= 0)
+    if (gon.user_player.temp_reserves <= 0)
     {
       end_turn();
     }
@@ -154,8 +169,7 @@ function end_turn()
   if (gon.game.phase == "initialTroops")
   {
     isMyTurn = false;
-    var object = {game: gon.game.id, player: gon.game.turn_index, data: CTD}
-    var json = JSON.stringify(object);
+    var json = JSON.stringify({game: gon.game.id, player: gon.game.turn_index, data: CTD});
     $.ajax({
       type: "POST",
       url: "/games/refresh",
@@ -165,10 +179,7 @@ function end_turn()
       {
         if (result.success)
         {
-          gon.current_player = result.current_player
-          $("header").load('/games/'+gon.game.id+'/game_header');
-          $("#sidebar-wrapper").load('/games/'+gon.game.id+'/sidebar');
-          resize();
+          alert("Your turn is over.");
         }
         else
         {
@@ -217,13 +228,16 @@ function showMessage(message)
 function showAlerts(messages)
 {
   $("#alerts").html('');
-  if (!$("collapseThree").hasClass('in'))
+    if (!$("#collapseThree").hasClass('in'))
         $("#alerts-panel a").click();
   showSidebar();
+
   loopOverMessages(0, messages);
+
 }
 function loopOverMessages(n, messages)
 {
+
   bounceMessage('alerts', 'alert'+n, messages[n], "", 2000);
   if (n < messages.length-1)
     setTimeout(function(){ loopOverMessages(n+1, messages);}, 1500);
@@ -255,48 +269,43 @@ function showSidebar()
   var toggled = $("#wrapper").hasClass("toggled");
   if (toggled && !mobile || !toggled && mobile)
     $("#sidebar").click();
+
 }
 
-function refresh()
+function update_gon()
 {
   $.ajax({
     type: "GET",
     url: "/games/refresh",
-    data: {game: gon.game, time: gon.territory_data.update_time},
+    data: {game: gon.game.id},
     dataType: "text",
     success: function(result){
-      var data = JSON.parse(result);
-      if (data.changed.length > 0)
-      {
-        gon.territory_data = Object.assign(gon.territory_data, data);
-        update_map(gon.territory_data.changed);
-      }
+      gon = JSON.parse(result);
     }
   });
 }
-function update_map(ar)
+function update_map(obj)
 {
-  for (var i=0; i < ar.length; i++)
+  for (var key in obj)
   {
-      document.getElementById("icon"+ar[i]).innerHTML = terri_owner(ar[i]);
-      document.getElementById("label"+ar[i]).innerHTML = gon.territory_data[ar[i]].troops;
-      select(ar[i]);
+    gon.territory_data[key].troops += obj[key];
+    document.getElementById("icon"+key).innerHTML = terri_owner(key);
+    document.getElementById("label"+key).innerHTML = gon.territory_data[key].troops;
+    select(key);
   }
   setTimeout(function(){
-    for (var i=0; i<ar.length; i++){
-      deselect(ar[i]);
+    for (var key in obj){
+      deselect(key);
     }
-  }, 1200);
+  }, 2000);
 }
 
 function mess()
 {
+  var json = JSON.stringify({game: gon.game.id, data: CTD});
   $.ajax({
     type: "GET",
     url: "/games/mess",
-    success: function(result){
-      console.log(result);
-      alert(result);
-    }
+    data: {this: json}
   });
 }

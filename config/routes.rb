@@ -11,10 +11,8 @@ Rails.application.routes.draw do
 
   get    '/games/:id/play'          => 'games#play', as: :play
   get    '/games/mess'              => 'games#mess'
-  get    'games/refresh'            => 'games#refresh_data'
+  get    'games/refresh'            => 'games#refresh_gon'
   post   'games/refresh'            => 'games#initial_troops'
-  get    'games/:id/game_header'    => 'games#game_header'
-  get    'games/:id/sidebar'        => 'games#sidebar'
 
   resources :players
   resources :games

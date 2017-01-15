@@ -65,6 +65,9 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  def public_attr
+    self.attributes.slice("id", "name")
+  end
   private
 
   # Creates and assigns the activation token and digest.

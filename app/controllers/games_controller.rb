@@ -53,8 +53,8 @@ class GamesController < ApplicationController
 
   def play
     @game = Game.find(params[:id])
-    gon = fetch_game_data(@game)
-    @current_player = current_player(@game)
+    gon.push(fetch_game_data(@game))
+    @current_player = @game.current_player
     @players = @game.players.order(:turn_order)
     @messages = @game.messages
   end
@@ -64,7 +64,7 @@ class GamesController < ApplicationController
     game = Game.find(pam["game"])
     if (pam["player"] == game.turn_index)
       data = pam["data"]
-      player = current_player(game)
+      player = game.current_player
       total = 0
       data.each do |n|
         total += n[1]
@@ -86,29 +86,32 @@ class GamesController < ApplicationController
     end
   end
 
-  def refresh_data
-    territory_data = get_new_game_data(params)
-    render json: territory_data
+  def refresh_gon
+    game = Game.find(params[:game])
+    data = fetch_game_data(game)
+    render json: data
   end
 
   def mess
-    player = Player.find(2)
-    return_data = {success: true, current_player: player}
-    render json: return_data
+    pam = JSON.parse(params[:this])
+    game = pam["game"]
+    ActionCable.server.broadcast "Game_#{game}",  type: "initialTroops",
+                                 terr_data: pam["data"]
+    head :ok
   end
 
-  def game_header
-    @game = Game.find(params[:id])
-    @current_player = current_player(@game)
-    render partial: 'layouts/game_header'
-  end
+  #def game_header
+  #  @game = Game.find(params[:id])
+  #  @current_player = current_player(@game)
+  #  render partial: 'layouts/game_header'
+  #end
 
-  def sidebar
-    @game = Game.find(params[:id])
-    @players = @game.players.order(:turn_order)
-    @messages = @game.messages
-    render partial: 'games/sidebar'
-  end
+  #def sidebar
+  #  @game = Game.find(params[:id])
+  #  @players = @game.players.order(:turn_order)
+  #  @messages = @game.messages
+  #  render partial: 'games/sidebar'
+  #end
 
 private
 
@@ -129,17 +132,12 @@ private
   def game_active
     @game = Game.find(params[:id])
     unless @game.active
-      flash[:danger] = "This game is not active!"
+      flash[:danger] = "That game is not active!"
       redirect_to root_path
     end
   end
 
-  def current_player(game)
-    game.players.find_by(turn_order: game.turn_index)
-  end
-
   def fetch_game_data(game)
-    current_player = current_player(game)
     players = game.players.order(:turn_order)
     player_terr_counts = []
     players.each do |player|
@@ -155,15 +153,14 @@ private
     90.times do |n|
       territory_data[n+1] = {owner: owners[n], troops: troops[n]}
     end
-    gon.push(
-      user: @current_user.attributes.slice("id", "name"),
-      current_player: current_player,
-      user_player: @current_user.players.find_by(game_id: game.id),
+    game_data = {
+      current_player: game.current_player.public_attr,
+      user_player: Player.find_by(game_id: game.id, user_id: current_user.id),
       game: game,
       territory_data: territory_data,
+      player_terr_counts: player_terr_counts,
       player_icons: player_icons,
-      player_terr_counts: player_terr_counts)
-    gon
+      user: current_user.public_attr}
   end
 
   def validate_territories(test, array)

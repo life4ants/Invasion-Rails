@@ -88,15 +88,19 @@ module GameCode
   end
 
   def update_troops(data, game, temp_reserves)
-    current_player = game.players.find_by(turn_order: game.turn_index)
+    current_player = game.current_player
     data.each do |n|
       terr = game.game_territories.find_by(territory_id: n[0].to_i)
-      terr.update!(troops: terr.troops + n[1])
+      n[1] += terr.troops
+      terr.troops = n[1]
+      terr.save!
     end
     current_player.update!(reserves: current_player.reserves - temp_reserves)
     assign_temp_reserves(current_player)
     current_player = next_player(game)
-    return {success: true, current_player: current_player}
+    ActionCable.server.broadcast "Game_#{game.id}", type: "initialTroops", terr_data: data,
+                                  current_player: current_player.public_attr, turn_index: game.turn_index
+    return {success: true}
   end
 
   def assign_temp_reserves(player)
@@ -118,7 +122,7 @@ module GameCode
     turn_index = game.turn_index + 1
     turn_index = 1 if turn_index > game.num_of_players
     game.update!(turn_index: turn_index)
-    current_player = game.players.find_by(turn_order: game.turn_index)
+    current_player = game.current_player
   end
 end
 
