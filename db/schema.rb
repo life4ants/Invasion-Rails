@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170108181557) do
+ActiveRecord::Schema.define(version: 20170117173146) do
 
   create_table "game_territories", force: :cascade do |t|
     t.integer  "game_id"
@@ -177,7 +177,9 @@ ActiveRecord::Schema.define(version: 20170108181557) do
     t.string "name"
     t.string "group"
     t.text   "borders"
+    t.string "subgroup"
     t.index ["group"], name: "index_territories_on_group"
+    t.index ["subgroup"], name: "index_territories_on_subgroup"
   end
 
   create_table "users", force: :cascade do |t|
