@@ -27,6 +27,11 @@ class PlayersController < ApplicationController
     end
   end
 
+  def index
+    @game = Game.find(params[:id])
+    @players = @game.players.order(:turn_order).includes(:user)
+  end
+
   private
 
   def players_met?(game)

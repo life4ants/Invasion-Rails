@@ -1,0 +1,11 @@
+<li>
+  <strong>Player <%=player.turn_order%>:</strong><br>
+  <%= icon_for(player) %><%= player.user.name %><br>
+  <%= player.territories.count %> Territories<br>
+  <%= player.temp_reserves %> Temp Reserves<br>
+  <%= player.reserves %> Reserves<br>
+  Cards: <%= player.cards %><br>
+  <%= content_tag("strong", "Must Turn in Cards ") if player.mustTurnInCards %>
+  <%= content_tag("strong", "Can Turn in Cards ") if player.can_turn_in_cards %>
+  <%= content_tag("strong", "Gets a Card") if player.getsACard %>
+</li>

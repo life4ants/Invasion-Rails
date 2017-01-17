@@ -1,0 +1,6 @@
+<% provide(:title, "Players of Game #{@game.id}") %>
+<h1>Players of the Game '<%=@game.nick_name%>'</h1>
+<%= link_to("Back to Game", play_path(id: @game.id)) %>
+<ul class="users">
+  <%= render partial: "player_full", collection: @players, as: :player %>
+</ul>

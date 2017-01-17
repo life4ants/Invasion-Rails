@@ -67,6 +67,7 @@
 
     </div>
     <div id="collapseFour" class="panel-collapse collapse">
+    <%= link_to("See Full Player Stats", players_path(id: @game.id)) %>
       <ul id='players' class='players players-list'>
       <%= render @players %>
       </ul>
