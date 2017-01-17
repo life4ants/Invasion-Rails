@@ -9,7 +9,6 @@ class Player < ApplicationRecord
   validates :game_id, presence: true
   validates :icon, presence: true
 
-
   def public_attr
     attributes = self.attributes.slice("id", "user_id", "turn_order")
     attributes["name"] = self.user.name

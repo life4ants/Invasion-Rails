@@ -33,14 +33,14 @@ function scrollBottom()
   $('.sidebar-messages').scrollTop($('.sidebar-messages')[$(".sidebar-messages").length-1].scrollHeight)
 }
 
-function show_dependent_info()
+function show_dependent_info(messages)
 {
   if (isMyTurn)
   {
     show_info_box();
     $("#my-turn").html("It's Your Turn!").removeAttr('style');
     alert(gon.user.name+", it is your turn.");
-    set_alerts();
+    set_alerts(messages);
   }
   else
   {
@@ -50,7 +50,7 @@ function show_dependent_info()
   }
 }
 
-function set_alerts()
+function set_alerts(messages)
 {
   if (gon.game.phase == "initialTroops")
   {
@@ -61,9 +61,9 @@ function set_alerts()
     "You may distribute "+P.temp_reserves+" of those now."   ];
     showAlerts(messages);
   }
-  else if (gon.game.phase == "")
+  else if (gon.game.phase == "addTroops")
   {
-
+    showAlerts(messages);
   }
 }
 

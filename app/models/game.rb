@@ -14,4 +14,8 @@ class Game < ApplicationRecord
   def current_player
     self.players.find_by(turn_order: self.turn_index)
   end
+
+  def active_players
+    self.players.where(active: true)
+  end
 end

@@ -9,16 +9,19 @@ App.game = App.cable.subscriptions.create {channel: "GameChannel", game_id: gon.
 
   received: (data) ->
     console.log(data)
-    if data.type == "initialTroops"
+    if data.type == "initialTroops" || data.type == "addTroops"
       isCurrentPlayer = gon.user_player.id == gon.current_player.id
       if !isCurrentPlayer
         update_map(data.terr_data)
       gon.game.turn_index = data.turn_index
       gon.current_player = data.current_player
+      gon.game.phase = data.type
+      messages = data.messages || []
       window.isMyTurn = gon.user_player.id == gon.current_player.id
       if window.isMyTurn
         update_gon()
-      show_dependent_info()
+      show_dependent_info(messages)
       onResize()
+
 
 

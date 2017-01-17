@@ -71,9 +71,9 @@ class GamesController < ApplicationController
       end
       if total == player.temp_reserves*2
         total = data.delete("total")
-        player_territories = game.game_territories.where(player_id: player.id).map(&:id)
+        player_territories = player.game_territory_ids
         if validate_territories(data, player_territories)
-          return_data = update_troops(data, game, total)
+          return_data = update_initial_troops(data, game, total)
           render json: return_data
         else
           render json: {success: false, reason: "territories don't match player"}

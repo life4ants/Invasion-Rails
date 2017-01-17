@@ -1,6 +1,8 @@
 <li>
-  <strong>Player <%=player.turn_order%>:</strong><br>
+  <strong>Player <%=player.turn_order%>:</strong>
+  <%= content_tag("strong", "Current Player", style: "color: red") if @game.turn_index == player.turn_order %><br>
   <%= icon_for(player) %><%= player.user.name %><br>
+  Id: <%= player.id %><br>
   <%= player.territories.count %> Territories<br>
   <%= player.temp_reserves %> Temp Reserves<br>
   <%= player.reserves %> Reserves<br>
