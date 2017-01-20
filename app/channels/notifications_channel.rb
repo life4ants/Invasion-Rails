@@ -8,4 +8,9 @@ class NotificationsChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def send_message (data)
+    ActionCable.server.broadcast "notifications_channel", message: data["message"]
+    return "return value"
+  end
 end

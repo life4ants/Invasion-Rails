@@ -6,6 +6,8 @@ App.notifications = App.cable.subscriptions.create "NotificationsChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    console.log(data)
-    alert(data)
+    console.log(data["message"])
+
+  send_message: (message) ->
+    @perform 'send_message', message: message
 

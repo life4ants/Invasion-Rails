@@ -37,6 +37,8 @@ function show_dependent_info(messages)
 {
   if (isMyTurn)
   {
+    console.log("reserves are: "+gon.user_player.reserves);
+    console.log("temp reserves are: "+gon.user_player.temp_reserves);
     show_info_box();
     $("#my-turn").html("It's Your Turn!").removeAttr('style');
     alert(gon.user.name+", it is your turn.");
@@ -179,6 +181,7 @@ function end_turn()
       {
         if (result.success)
         {
+          CTD = {total: 0}
           alert("Your turn is over.");
         }
         else
@@ -280,7 +283,10 @@ function update_gon()
     data: {game: gon.game.id},
     dataType: "text",
     success: function(result){
+      console.log('gon update received');
       gon = JSON.parse(result);
+      console.log('gon was updated');
+      console.log('reserves: '+gon.user_player.reserves+", temp_reserves: "+gon.user_player.temp_reserves);
     }
   });
 }

@@ -95,8 +95,7 @@ class GamesController < ApplicationController
   def mess
     pam = JSON.parse(params[:this])
     game = pam["game"]
-    ActionCable.server.broadcast "Game_#{game}",  type: "initialTroops",
-                                 terr_data: pam["data"]
+    ActionCable.server.broadcast "notifications_channel", data: "a message"
     head :ok
   end
 
