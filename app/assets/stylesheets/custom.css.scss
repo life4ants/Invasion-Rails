@@ -271,6 +271,17 @@ input {
   margin-left: 0;
 }
 
+.square{
+  height: 50px;
+  width: 50px;
+
+  &:hover{
+    background-color: #999;
+    margin-top: -2px;
+    height: 52px;
+  }
+}
+
 /* Users index */
 
 .users {

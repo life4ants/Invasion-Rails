@@ -7,6 +7,7 @@ class GamesController < ApplicationController
 
   def new
     @game = Game.new(num_of_players: 3)
+    @player = Player.new
   end
 
   def show
@@ -14,16 +15,22 @@ class GamesController < ApplicationController
     @players = @game.players.includes(:user)
   end
 
-  def create    #TODO: error handling if game saves but player doesn't
+  def create
     @user = current_user
     @game = Game.new(game_params)
+    @player = Player.new
     time = Time.now.to_formatted_s(:number)
     @game.nick_name = "#{@user.name}#{time}" if @game.nick_name.empty?
     if @game.save
       @game.update(random_select: true, wins_tie: false, num_of_cards: 15)
-      @game.players.create!(user_id: @user.id, admin: true, icon: params[:game][:player][:icon])
-      flash[:info] = "Game created sucessfully."
-      redirect_to games_url
+      @player = Player.new(user_id: @user.id, game_id: @game.id, admin: true, icon: params[:game][:player][:icon])
+      if @player.save
+        flash[:info] = "Game created sucessfully."
+        redirect_to games_url
+      else
+        @game.destroy
+        render 'new'
+      end
     else
       render 'new'
     end

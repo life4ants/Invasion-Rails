@@ -17,11 +17,12 @@ A 12.108591,12.108591 0 0 0 12,1 Z m -0.0742,5.0918 a 7.0915475,7.0915475 0 0 1 
 var colors = ["#OOOOOO", "#FF00FF", "#FF0000", "#FFFF00", "#00FF00", "#00FFFF", "#0000FF", "#FFFFFF", "#764710", "#FF8000"];
 
 
-function insertShape(input) {
+function insertShape(input, size=25) {
+  if (input < 0) return;
   var num = input % 10;
   var color = (input - (input % 10))/10;
 
-  return " <svg version='1.1' height='25' width='25' viewbox='0 0 26.5 28.5'><"+shape[num][1]+" style='fill:"+colors[color]+
+  return " <svg version='1.1' height='"+size+"' width='"+size+"' viewbox='0 0 26.5 28.5'><"+shape[num][1]+" style='fill:"+colors[color]+
   "; stroke:black; stroke-width:1.5; stroke-linejoin:round'" +
    shape[num][0] + "/></svg>";
 }
