@@ -3,3 +3,12 @@ label.label
   color: black;
   font-size: 1.0em;
 }
+
+.formtastic .input .label{
+  width: inherit;
+}
+
+.formtastic .input {
+  display: flex;
+  justify-content: space-between;
+}

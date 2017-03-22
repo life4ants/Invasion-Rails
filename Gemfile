@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.3.1'
+
 gem 'rails',        '5.0.1'
 gem 'bcrypt',        '3.1.7'
 gem 'faker',          '1.4.2'
@@ -21,6 +23,7 @@ gem 'turbolinks',   '2.3.0'
 gem 'jbuilder', '~> 2.6', '>= 2.6.1'
 gem 'sdoc',         '0.4.0', group: :doc
 gem 'web-console', '~> 3.2', group: :development
+gem 'react-rails'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

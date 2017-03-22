@@ -14,8 +14,11 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require turbolinks
+//= require react
+//= require react_ujs
 //= require cable
 //= require resize
 //= require shapes
 //= require_tree ./channels
+//= require_tree ./components
 

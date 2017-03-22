@@ -1,0 +1,26 @@
+.flex-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.flexboxes{
+  flex: 0 0;
+  padding: 10px;
+}
+
+.newGame{
+  flex: 0 0 300px;
+  padding: 10px;
+}
+
+.icons-box{
+  flex: 0 0 525px;
+  padding: 10px;
+}
+
+#icon-preview{
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
