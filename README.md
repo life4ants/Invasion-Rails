@@ -5,7 +5,7 @@ Andy's Invasion Game
 Description
 -----------
 
-This is my Invasion game on a rails platform.
+This is my Invasion game on a rails platform. If finished, players can create games, and join games other users have created. The board will be updated during play using websockets.
 
 Prerequisites
 -------------
@@ -18,10 +18,10 @@ In order to run Invasion locally, you will need to have a few things installed f
 Setup
 -----
 
-Clone the repo from BitBucket.
+Clone the repo.
 
-    $ git clone git@bitbucket.org:Life4ants/invasion-rails.git
-    $ cd invasion-rails
+    $ git clone git@github.com:life4ants/Invasion-Rails.git
+    $ cd Invasion-Rails
 
 Install the gems.
 
@@ -36,20 +36,8 @@ Run the migrations.
 
     $ rake db:migrate
 
-Edit the database seeds at `config/db/seeds.rb` and edit the info for the admin user.
 
-```
-
-User.create!(name:  "Brother Andy",
-             email: "brotherandy@live.com",
-             password:              "foobar",
-             password_confirmation: "foobar",
-             admin:     true,
-             activated: true,
-             activated_at: Time.zone.now)
-```
-
-Seed the database. In additon to setting up territory borders and such, this will create 8 sample users (with email addresses stolen from Micheal Hartl - don't tell anyone!)
+Seed the database. In additon to setting up territory borders and such, this will create 8 sample users
 
     $ rake db:seed
 
@@ -57,4 +45,4 @@ Start the webrick server.
 
     $ rails server
 
-Open your browser to `localhost:3000` and you will get the home page. You can log in with the username and password you chose for the admin user and join the created game from there.
+Open your browser to `localhost:3000` and you will get the home page. You can log in with an email and password for any of the users created in `db/seeds.rb`.

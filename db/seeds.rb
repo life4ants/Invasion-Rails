@@ -11,7 +11,7 @@ names = ["Skyman1", "Babyman2", "Blueguy3", "Catman4", "Inky5", "erkerla6", "Bim
 
 8.times do |n|
   name  = names[n]
-  email = "example-#{n+1}@railstutorial.org"
+  email = "example-#{n+1}@invasion.com"
   password = "password"
   User.create!(name: name,
               email: email,
@@ -21,8 +21,8 @@ names = ["Skyman1", "Babyman2", "Blueguy3", "Catman4", "Inky5", "erkerla6", "Bim
               activated_at: Time.zone.now)
 end
 
-User.create!(name: "Brother Andy",
-             email: "brotherandy@live.com",
+User.create!(name: "Admin",
+             email: "admin@invasion.com",
              password:              "foobar",
              password_confirmation: "foobar",
              admin:     true,
